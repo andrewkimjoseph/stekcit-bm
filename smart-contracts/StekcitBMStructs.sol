@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.7;
+pragma solidity ^0.8.19;
 
 struct StekcitUser {
     uint256 id;
@@ -9,6 +9,8 @@ struct StekcitUser {
     string emailAddress;
     bool isCreatingUser;
     bool isBlank;
+    bool isWelcomeEmailSent;
+    bytes32 welcomeEmailVerificationId;
 }
 
 struct StekcitEvent {
@@ -27,6 +29,8 @@ struct StekcitEvent {
     uint256 verificationAmountInEthers;
     bool isEnded;
     bool isPaidOut;
+    uint256 verificationRequestId;
+    uint256 verificationId;
 }
 
 struct StekcitTicket {
@@ -35,6 +39,8 @@ struct StekcitTicket {
     address attendingUserWalletAddress;
     uint256 amountPaidInEthers;
     bool isBlank;
+    uint256 verificationRequestId;
+    uint256 verificationId;
 }
 
 struct StekcitPayout {
@@ -44,4 +50,9 @@ struct StekcitPayout {
     uint256 amountPaidOutInEthers;
     uint256 dateTimeAndMade;
     bool isBlank;
+}
+
+struct StekcitFunctionsError {
+    uint256 id;
+    bytes error;
 }

@@ -1,16 +1,24 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.7;
+pragma solidity ^0.8.19;
 
-import {StekcitUser, StekcitEvent, StekcitTicket, StekcitPayout} from "./StekcitBMStructs.sol";
+import {VRFV2WrapperConsumerBase} from "@chainlink/contracts@1.1.0/src/v0.8/vrf/VRFV2WrapperConsumerBase.sol";
+import {LinkTokenInterface} from "@chainlink/contracts@1.1.0/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
+import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol";
+import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
+
+import {StekcitUser, StekcitEvent, StekcitTicket, StekcitPayout, StekcitFunctionsError} from "./StekcitBMStructs.sol";
 
 import {ERC20} from "./StekcitBMInterfaces.sol";
 
-contract StekcitBM {
+contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
+    using FunctionsRequest for FunctionsRequest.Request;
+
     StekcitUser[] private allStekcitUsers;
     StekcitEvent[] private allStekcitEvents;
     StekcitTicket[] private allStekcitTickets;
     StekcitPayout[] private allStekcitPayouts;
+    StekcitFunctionsError[] public allStekcitFunctionsErrors;
 
     address public stekcitBMOwnerAddress;
 
@@ -18,10 +26,23 @@ contract StekcitBM {
     uint256 private currentEventId;
     uint256 private currentTicketId;
     uint256 private currentPayoutId;
+    uint256 private currentFunctionsErrorId;
 
     ERC20 cUSD = ERC20(0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1);
 
-    constructor(address _stekcitBMOwnerAddress) {
+    // LINK on Fuji
+    address linkAddress = 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846;
+
+    // Chainlink VRF - Wrapper address for Avalanche Fuji
+    address wrapperAddress = 0x9345AC54dA4D0B5Cda8CB749d8ef37e5F02BBb21;
+
+    // Chainlink Functions - Router address for Avalanche Fuji
+    address router = 0xA9d587a00A31A52Ed70D6026794a8FC5E2F5dCb0;
+
+    constructor(address _stekcitBMOwnerAddress)
+        VRFV2WrapperConsumerBase(linkAddress, wrapperAddress)
+        FunctionsClient(router)
+    {
         stekcitBMOwnerAddress = _stekcitBMOwnerAddress;
     }
 
@@ -102,7 +123,9 @@ contract StekcitBM {
                 _username,
                 _emailAddress,
                 false,
-                false
+                false,
+                false,
+                ""
             )
         );
 
@@ -383,6 +406,27 @@ contract StekcitBM {
         return blankEvent;
     }
 
+    function getEventByVerificationRequestId(uint256 _verificationRequestId)
+        public
+        view
+        returns (StekcitEvent memory)
+    {
+        for (
+            uint256 eventId = 0;
+            eventId < allStekcitEvents.length;
+            eventId++
+        ) {
+            StekcitEvent memory currentEvent = allStekcitEvents[eventId];
+            if (currentEvent.verificationRequestId == _verificationRequestId) {
+                return currentEvent;
+            }
+        }
+
+        StekcitEvent memory blankEvent;
+        blankEvent.isBlank = true;
+        return blankEvent;
+    }
+
     function createEvent(
         string memory _title,
         string memory _description,
@@ -417,7 +461,9 @@ contract StekcitBM {
                 false,
                 0,
                 false,
-                false
+                false,
+                0,
+                0
             )
         );
 
@@ -508,6 +554,57 @@ contract StekcitBM {
         return blankTicket;
     }
 
+
+       function setVerificationRequestIdForTicket(
+        uint256 _ticketId,
+        uint256 _verificationRequestId
+    ) private returns (StekcitTicket memory) {
+        StekcitTicket memory updatedTicket = getTicketById(_ticketId);
+
+
+        updatedTicket.verificationRequestId = _verificationRequestId;
+
+        allStekcitTickets[_ticketId] = updatedTicket;
+
+        return updatedTicket;
+    }
+
+    function setVerificationIdForTicket(
+        uint256 _ticketId,
+        uint256 _verificationId
+    ) private returns (StekcitTicket memory) {
+        StekcitTicket memory updatedTicket = getTicketById(_ticketId);
+
+        updatedTicket.verificationId = _verificationId;
+
+        allStekcitTickets[_ticketId] = updatedTicket;
+
+        return updatedTicket;
+    }
+
+
+    function getTicketByVerificationRequestId(uint256 _verificationRequestId)
+        public
+        view
+        returns (StekcitTicket memory)
+    {
+        for (
+            uint256 ticketId = 0;
+            ticketId < allStekcitTickets.length;
+            ticketId++
+        ) {
+            StekcitTicket memory currentTicket = allStekcitTickets[ticketId];
+            if (currentTicket.verificationRequestId == _verificationRequestId) {
+                return currentTicket;
+            }
+        }
+
+        StekcitTicket memory blankTicket;
+        blankTicket.isBlank = true;
+        return blankTicket;
+    }
+
+
     function createTicketForUser(uint256 _eventId)
         public
         onlyExistingUser
@@ -531,7 +628,9 @@ contract StekcitBM {
                 _eventId,
                 msg.sender,
                 currentEvent.amountInEthers,
-                false
+                false,
+                0,
+                0
             )
         );
 
@@ -702,22 +801,36 @@ contract StekcitBM {
         return totalAmountInEthers;
     }
 
-    function verifyEvent(uint256 _eventId)
-        public
-        onlyCreatingUserOfEvent(_eventId)
-        returns (StekcitEvent memory)
-    {
-        StekcitEvent memory eventToVerifyAndUpdate = getEventById(_eventId);
+    function setVerificationRequestIdForEvent(
+        uint256 _eventId,
+        uint256 _verificationRequestId
+    ) private returns (StekcitEvent memory) {
+        StekcitEvent memory updatedEvent = getEventById(_eventId);
 
-        uint256 verificationAmount = eventToVerifyAndUpdate.amountInEthers / 10;
+        uint256 verificationAmount = updatedEvent.amountInEthers / 10;
 
-        eventToVerifyAndUpdate.updatedAt = block.timestamp;
-        eventToVerifyAndUpdate.isVerified = true;
-        eventToVerifyAndUpdate.verificationAmountInEthers = verificationAmount;
+        updatedEvent.isVerified = true;
+        updatedEvent.updatedAt = block.timestamp;
+        updatedEvent.verificationAmountInEthers = verificationAmount;
+        updatedEvent.verificationRequestId = _verificationRequestId;
 
-        allStekcitEvents[_eventId] = eventToVerifyAndUpdate;
+        allStekcitEvents[_eventId] = updatedEvent;
 
-        return eventToVerifyAndUpdate;
+        return updatedEvent;
+    }
+
+    function setVerificationIdForEvent(
+        uint256 _eventId,
+        uint256 _verificationId
+    ) private returns (StekcitEvent memory) {
+        StekcitEvent memory updatedEvent = getEventById(_eventId);
+
+        updatedEvent.updatedAt = block.timestamp;
+        updatedEvent.verificationId = _verificationId;
+
+        allStekcitEvents[_eventId] = updatedEvent;
+
+        return updatedEvent;
     }
 
     function publishEvent(uint256 _eventId)
@@ -732,5 +845,145 @@ contract StekcitBM {
         allStekcitEvents[_eventId] = eventToVerifyAndUpdate;
 
         return eventToVerifyAndUpdate;
+    }
+
+    // <--- CHAINLINK FUNCTIONS IMPLEMENTATION METHODS --->
+
+    function sendRequest(
+        string memory source,
+        bytes memory encryptedSecretsUrls,
+        uint8 donHostedSecretsSlotID,
+        uint64 donHostedSecretsVersion,
+        string[] memory args,
+        bytes[] memory bytesArgs,
+        uint64 subscriptionId,
+        uint32 gasLimit,
+        bytes32 donID
+    ) external returns (bytes32) {
+        FunctionsRequest.Request memory req;
+        req.initializeRequestForInlineJavaScript(source);
+        if (encryptedSecretsUrls.length > 0)
+            req.addSecretsReference(encryptedSecretsUrls);
+        else if (donHostedSecretsVersion > 0) {
+            req.addDONHostedSecrets(
+                donHostedSecretsSlotID,
+                donHostedSecretsVersion
+            );
+        }
+        if (args.length > 0) req.setArgs(args);
+        if (bytesArgs.length > 0) req.setBytesArgs(bytesArgs);
+
+        bytes32 requestId = _sendRequest(
+            req.encodeCBOR(),
+            subscriptionId,
+            gasLimit,
+            donID
+        );
+
+        return requestId;
+    }
+
+    // function sendRequestCBOR(
+    //     bytes memory request,
+    //     uint64 subscriptionId,
+    //     uint32 gasLimit,
+    //     bytes32 donID
+    // ) external returns (bytes32 requestId) {
+    //     return _sendRequest(request, subscriptionId, gasLimit, donID);
+    // }
+
+    // Callback for Chainlink Functions
+    function fulfillRequest(
+        bytes32 requestId,
+        bytes memory response,
+        bytes memory err
+    ) internal override {
+        (uint256 userId, bool isWelcomeEmailSent) = abi.decode(
+            response,
+            (uint256, bool)
+        );
+
+        updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
+
+        createFunctionsError(err);
+    }
+
+    function updateWelcomeEmailVerificationId(
+        uint256 _userId,
+        bool _isWelcomeEmailSent,
+        bytes32 _welcomeEmailVerificationId
+    ) private returns (bool) {
+        StekcitUser memory userToBeUpdated = allStekcitUsers[_userId];
+
+        if (!userToBeUpdated.isBlank) {
+            uint256 userId = userToBeUpdated.id;
+            userToBeUpdated.isWelcomeEmailSent = _isWelcomeEmailSent;
+            userToBeUpdated
+                .welcomeEmailVerificationId = _welcomeEmailVerificationId;
+
+            allStekcitUsers[userId] = userToBeUpdated;
+            return true;
+        }
+        return false;
+    }
+
+    function createFunctionsError(bytes memory error) private {
+        uint256 newFunctionsErrorId = currentFunctionsErrorId;
+
+        allStekcitFunctionsErrors.push(
+            StekcitFunctionsError(newFunctionsErrorId, error)
+        );
+
+        currentFunctionsErrorId++;
+    }
+
+    // <--- CHAINLINK VRF IMPLEMENTATION METHODS --->
+
+    // function getVerificationId() private returns (uint256) {
+    //     // Param 1: gasLimit
+    //     // Param 2: requestConfirmations
+    //     // Param 3: numberOfWords
+    //     return requestRandomness(100000, 1, 1);
+    // }
+
+    function verifyEventAndSetVerificationId(uint256 _eventId)
+        public
+        returns (StekcitEvent memory)
+    {
+        uint256 eventVerificationId = requestRandomness(100000, 1, 1);
+        return setVerificationRequestIdForEvent(_eventId, eventVerificationId);
+    }
+
+    function verifyTicketAndSetVerificationId(uint256 _ticketId)
+        public
+        returns (StekcitTicket memory)
+    {
+        uint256 ticketVerificationId = requestRandomness(100000, 1, 1);
+        return setVerificationRequestIdForTicket(_ticketId, ticketVerificationId);
+    }
+
+
+
+    // Callback for Chainlink VRF
+    function fulfillRandomWords(
+        uint256 _requestId,
+        uint256[] memory _randomWords
+    ) internal override {
+        StekcitEvent memory updatedEvent = getEventByVerificationRequestId(
+            _requestId
+        );
+
+        if (!updatedEvent.isBlank){
+            setVerificationIdForEvent(updatedEvent.id, _randomWords[0]);
+        }
+    
+        StekcitTicket memory updatedTicket = getTicketByVerificationRequestId(
+            _requestId
+        );
+
+        if (!updatedTicket.isBlank){
+            setVerificationIdForTicket(updatedTicket.id, _randomWords[0]);
+        }
+
     }
 }

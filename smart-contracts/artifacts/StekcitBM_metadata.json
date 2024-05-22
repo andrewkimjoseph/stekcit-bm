@@ -20,11 +20,11 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_amount",
+						"name": "_eventId",
 						"type": "uint256"
 					}
 				],
-				"name": "approveStekcitBM",
+				"name": "checkIfEventIsAlreadyPaidOut",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -32,7 +32,7 @@
 						"type": "bool"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -43,7 +43,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "checkIfEventIsAlreadyPaidOut",
+				"name": "checkIfTicketOfUserForThisEventExists",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -124,30 +124,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "checkStekcitBMAllowanceOfUser",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_creatingWalletAddress",
-						"type": "address"
-					},
-					{
 						"internalType": "string",
 						"name": "_title",
 						"type": "string"
@@ -169,12 +145,12 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "dateAndTime",
+						"name": "_dateAndTime",
 						"type": "uint256"
 					},
 					{
 						"internalType": "bool",
-						"name": "forImmediatePublishing",
+						"name": "_forImmediatePublishing",
 						"type": "bool"
 					}
 				],
@@ -209,7 +185,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amount",
+								"name": "amountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -244,7 +220,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "verificationAmount",
+								"name": "verificationAmountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -272,72 +248,6 @@
 						"internalType": "uint256",
 						"name": "_eventId",
 						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_amount",
-						"type": "uint256"
-					}
-				],
-				"name": "createPayout",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "uint256",
-								"name": "id",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "eventId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "address",
-								"name": "creatingUserWalletAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amountPaidOut",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "dateTimeAndMade",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "isBlank",
-								"type": "bool"
-							}
-						],
-						"internalType": "struct StekcitPayout",
-						"name": "",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_eventId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "_attendingUserWalletAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_amountPaid",
-						"type": "uint256"
 					}
 				],
 				"name": "createTicketForUser",
@@ -361,8 +271,13 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amountPaid",
+								"name": "amountPaidInEthers",
 								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct StekcitTicket",
@@ -375,11 +290,6 @@
 			},
 			{
 				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					},
 					{
 						"internalType": "string",
 						"name": "_username",
@@ -473,7 +383,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amount",
+								"name": "amountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -508,7 +418,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "verificationAmount",
+								"name": "verificationAmountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -563,7 +473,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amount",
+								"name": "amountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -598,7 +508,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "verificationAmount",
+								"name": "verificationAmountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -649,8 +559,13 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amountPaid",
+								"name": "amountPaidInEthers",
 								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct StekcitTicket[]",
@@ -690,8 +605,13 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amountPaid",
+								"name": "amountPaidInEthers",
 								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct StekcitTicket[]",
@@ -792,7 +712,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amount",
+								"name": "amountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -827,7 +747,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "verificationAmount",
+								"name": "verificationAmountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -929,7 +849,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amountPaidOut",
+								"name": "amountPaidOutInEthers",
 								"type": "uint256"
 							},
 							{
@@ -944,6 +864,57 @@
 							}
 						],
 						"internalType": "struct StekcitPayout",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_eventId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "getTicketByEventIdAndWalletAddress",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "eventId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "attendingUserWalletAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amountPaidInEthers",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
+							}
+						],
+						"internalType": "struct StekcitTicket",
 						"name": "",
 						"type": "tuple"
 					}
@@ -980,8 +951,13 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amountPaid",
+								"name": "amountPaidInEthers",
 								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
 							}
 						],
 						"internalType": "struct StekcitTicket",
@@ -1000,7 +976,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "getTotalAmountPaidToEvent",
+				"name": "getTotalAmountPaidToEventInEthers",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -1152,52 +1128,8 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_increaseApprovalAmount",
-						"type": "uint256"
-					}
-				],
-				"name": "increaseApprovalForStekcitBM",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
+				"inputs": [],
 				"name": "makeCreatingUser",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_amount",
-						"type": "uint256"
-					}
-				],
-				"name": "payForEvent",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -1237,7 +1169,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amountPaidOut",
+								"name": "amountPaidOutInEthers",
 								"type": "uint256"
 							},
 							{
@@ -1298,7 +1230,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amount",
+								"name": "amountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -1333,7 +1265,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "verificationAmount",
+								"name": "verificationAmountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -1407,7 +1339,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "amount",
+								"name": "amountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -1442,7 +1374,7 @@
 							},
 							{
 								"internalType": "uint256",
-								"name": "verificationAmount",
+								"name": "verificationAmountInEthers",
 								"type": "uint256"
 							},
 							{
@@ -1493,11 +1425,11 @@
 	},
 	"sources": {
 		"smart-contracts/StekcitBM.sol": {
-			"keccak256": "0x1e86a21800d00f583410c60d2050a164eb4888e9fe9b36acb6182dac251632aa",
+			"keccak256": "0xd685b25bc3482bffda4e94017277c498bdc67f66b47636262146ab5b332f5347",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4b7dc974e855f4a6a4de6bde072952e30cee852da5d2cc567a20024b59bcc2b0",
-				"dweb:/ipfs/QmfCjjnZhzv9EHW1MBCctda5thtH1V3xc8PcKezppAWyVJ"
+				"bzz-raw://6cf0cc7caa0a7faca460a5026dfe0fc68638ad7e49e36d60536312db482aa8fa",
+				"dweb:/ipfs/QmSGSB195Va4XHxKDGyijuKXg8QR7hFaETTBLCeE9XQKiz"
 			]
 		},
 		"smart-contracts/StekcitBMInterfaces.sol": {
@@ -1509,11 +1441,11 @@
 			]
 		},
 		"smart-contracts/StekcitBMStructs.sol": {
-			"keccak256": "0x7d13aad4c8cc02d163191e6f714667a2ffca1ad2cecc2d5c7a87681387dc30e9",
+			"keccak256": "0x419c819c75b50a09b2ec70de1ebe7d57264c03353d3e8be9d84e096bf2fa1f42",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aaf68c8901c77a9a42cacbe2e15ed3fdb49a5b08a7398810cf55038fa28f0a09",
-				"dweb:/ipfs/Qmaj8qT4FDoWBqTxT1qB1UW6FYDNDjAoemzJXnD8F4QzB8"
+				"bzz-raw://fb18bfa7887e6b685179ac76156ad378eba1ef5f436e6b8d4e133c580bdf1b85",
+				"dweb:/ipfs/QmSCkMcSyuvTUPvFkDT2GnXVg94b2ZJsFARDVgwh2Mk9JS"
 			]
 		}
 	},

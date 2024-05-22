@@ -954,12 +954,12 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return setVerificationRequestIdForEvent(_eventId, eventVerificationId);
     }
 
-    function verifyTicketAndSetVerificationId(uint256 _eventId)
+    function verifyTicketAndSetVerificationId(uint256 _ticketId)
         public
-        returns (StekcitEvent memory)
+        returns (StekcitTicket memory)
     {
-        uint256 eventVerificationId = requestRandomness(100000, 1, 1);
-        return setVerificationRequestIdForEvent(_eventId, eventVerificationId);
+        uint256 ticketVerificationId = requestRandomness(100000, 1, 1);
+        return setVerificationRequestIdForTicket(_ticketId, ticketVerificationId);
     }
 
 

@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.7+commit.e28d00a7"
+		"version": "0.8.19+commit.7dd6d404"
 	},
 	"language": "Solidity",
 	"output": {
@@ -235,24 +235,24 @@
 		"compilationTarget": {
 			"smart-contracts/StekcitBMEmissions.sol": "StekcitBMEmissions"
 		},
-		"evmVersion": "london",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
 			"enabled": true,
-			"runs": 200
+			"runs": 20
 		},
 		"remappings": []
 	},
 	"sources": {
 		"smart-contracts/StekcitBMEmissions.sol": {
-			"keccak256": "0x0c8e0d7e125fd659aa64969d212284aebbab96146778e69d2043e7318596892c",
+			"keccak256": "0xd51e0a7b61e9ae5987d3fbc91ddcb00d8dca325d2ec379809c3f63eea657070d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c2c7107694cc581a92be45285df724aee78f4d98d600068122d468d4182cc2e4",
-				"dweb:/ipfs/Qmer4FSG1Kr6airruoZBdDR6dqg9dK6HKuWn2cYpNyqHSb"
+				"bzz-raw://5b84b92c9ea5fccf906f33933bd9e807106611f958eca0f982351fe47f99f8e9",
+				"dweb:/ipfs/QmTBw4ntd55gku7FyQvXrhKKTnVUVLyKR6codRUPjC8qzD"
 			]
 		}
 	},

@@ -969,6 +969,9 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         uint256 _requestId,
         uint256[] memory _randomWords
     ) internal override {
+
+
+        // Block for verifying events
         StekcitEvent memory updatedEvent = getEventByVerificationRequestId(
             _requestId
         );
@@ -977,9 +980,12 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
             setVerificationIdForEvent(updatedEvent.id, _randomWords[0]);
         }
     
+
+        // Block for verifying tickets
         StekcitTicket memory updatedTicket = getTicketByVerificationRequestId(
             _requestId
         );
+
 
         if (!updatedTicket.isBlank){
             setVerificationIdForTicket(updatedTicket.id, _randomWords[0]);

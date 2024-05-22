@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.7;
 
-contract StekcitBwCEmissions {
+contract StekcitBMEmissions {
      event EvStekcitUser(
         uint256 id,
         address walletAddress,

@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.19+commit.7dd6d404"
+		"version": "0.8.26+commit.8a97fa7a"
 	},
 	"language": "Solidity",
 	"output": {
@@ -143,49 +143,6 @@
 					}
 				],
 				"name": "checkIfUserAlreadyHasTicket",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "checkIfUserExists",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_eventId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "checkIfUserisCreatingUserOfEvent",
 				"outputs": [
 					{
 						"internalType": "bool",
@@ -1263,6 +1220,62 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "_verificationRequestId",
+						"type": "uint256"
+					}
+				],
+				"name": "getTicketByVerificationRequestId",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "eventId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "attendingUserWalletAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amountPaidInEthers",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "verificationRequestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "verificationId",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct StekcitTicket",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
 						"name": "_eventId",
 						"type": "uint256"
 					}
@@ -1459,6 +1472,19 @@
 				"name": "handleOracleFulfillment",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastFunctionsError",
+				"outputs": [
+					{
+						"internalType": "bytes",
+						"name": "",
+						"type": "bytes"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -1826,6 +1852,62 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_ticketId",
+						"type": "uint256"
+					}
+				],
+				"name": "verifyTicketAndSetVerificationId",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "eventId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "attendingUserWalletAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amountPaidInEthers",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "verificationRequestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "verificationId",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct StekcitTicket",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -1856,7 +1938,7 @@
 		"compilationTarget": {
 			"smart-contracts/StekcitBM.sol": "StekcitBM"
 		},
-		"evmVersion": "paris",
+		"evmVersion": "cancun",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -1949,11 +2031,11 @@
 			]
 		},
 		"smart-contracts/StekcitBM.sol": {
-			"keccak256": "0x2300dff64d1df52308c167fa6a87143d2ce3aa0314ffda11f601225b7c3ecfa5",
+			"keccak256": "0xc05339df363f3c2ccd3a48f7a093ff7ef4a35777de5b66a5bfe5a7fa915dbfc0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0180b9f2f236a5722d5c2c93ecbce07aa63382333f67ce7351fb55c3c3f26dcd",
-				"dweb:/ipfs/QmbyVVph7Lx6v8TtbeBuEykwLNDzPNYqkFGUgfKgbjWCCX"
+				"bzz-raw://ad74bb6215d750a86b8925e37fd3888e018a60095885bf7b19001eb0c67e0fda",
+				"dweb:/ipfs/QmRhaFgdvH4kzSysYPHe9K2goQBAsgQW8MD3MjKooMokXw"
 			]
 		},
 		"smart-contracts/StekcitBMInterfaces.sol": {

@@ -22,6 +22,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     address public stekcitBMOwnerAddress;
 
+    bytes public lastFunctionsError;
+
     uint256 private currentUserId;
     uint256 private currentEventId;
     uint256 private currentTicketId;
@@ -46,73 +48,73 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         stekcitBMOwnerAddress = _stekcitBMOwnerAddress;
     }
 
-    modifier onlyCreatingUserOfEvent(uint256 _eventId) {
-        require(
-            checkIfUserisCreatingUserOfEvent(_eventId, msg.sender),
-            "Only a creating user of event can perform this action."
-        );
-        _;
-    }
+    // modifier onlyCreatingUserOfEvent(uint256 _eventId) {
+    //     require(
+    //         checkIfUserisCreatingUserOfEvent(_eventId, msg.sender),
+    //         "Only a creating user of event can perform this action."
+    //     );
+    //     _;
+    // }
 
-    modifier onlyCreatingUser(address _walletAddress) {
-        StekcitUser memory checkingUser = getUserByWalletAddress(
-            _walletAddress
-        );
-        require(
-            checkingUser.isCreatingUser,
-            "Only a creating user can perform this action."
-        );
-        _;
-    }
+    // modifier onlyCreatingUser(address _walletAddress) {
+    //     StekcitUser memory checkingUser = getUserByWalletAddress(
+    //         _walletAddress
+    //     );
+    //     require(
+    //         checkingUser.isCreatingUser,
+    //         "Only a creating user can perform this action."
+    //     );
+    //     _;
+    // }
 
-    modifier onlyExistingUser() {
-        require(
-            checkIfUserExists(msg.sender),
-            "Only existing users can perform this action."
-        );
-        _;
-    }
+    // modifier onlyExistingUser() {
+    //     require(
+    //         checkIfUserExists(msg.sender),
+    //         "Only existing users can perform this action."
+    //     );
+    //     _;
+    // }
 
-    function checkIfUserExists(address _walletAddress)
-        public
-        view
-        returns (bool)
-    {
-        for (uint256 userId = 0; userId < allStekcitUsers.length; userId++) {
-            StekcitUser memory currentUser = allStekcitUsers[userId];
-            if (
-                currentUser.walletAddress == _walletAddress &&
-                !currentUser.isBlank
-            ) {
-                return true;
-            }
-        }
+    // function checkIfUserExists(address _walletAddress)
+    //     public
+    //     view
+    //     returns (bool)
+    // {
+    //     for (uint256 userId = 0; userId < allStekcitUsers.length; userId++) {
+    //         StekcitUser memory currentUser = allStekcitUsers[userId];
+    //         if (
+    //             currentUser.walletAddress == _walletAddress &&
+    //             !currentUser.isBlank
+    //         ) {
+    //             return true;
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
-    function checkIfUserisCreatingUserOfEvent(
-        uint256 _eventId,
-        address _walletAddress
-    ) public view returns (bool) {
-        StekcitEvent memory eventToCheck = allStekcitEvents[_eventId];
+    // function checkIfUserisCreatingUserOfEvent(
+    //     uint256 _eventId,
+    //     address _walletAddress
+    // ) public view returns (bool) {
+    //     StekcitEvent memory eventToCheck = allStekcitEvents[_eventId];
 
-        if (eventToCheck.creatingUserWalletAddress == _walletAddress) {
-            return true;
-        }
+    //     if (eventToCheck.creatingUserWalletAddress == _walletAddress) {
+    //         return true;
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     function createUser(string memory _username, string memory _emailAddress)
         public
         returns (StekcitUser memory)
     {
-        bool userExists = checkIfUserExists(msg.sender);
+        // bool userExists = checkIfUserExists(msg.sender);
 
-        if (userExists) {
-            return getUserByWalletAddress(msg.sender);
-        }
+        // if (userExists) {
+        //     return getUserByWalletAddress(msg.sender);
+        // }
 
         uint256 newUserId = currentUserId;
 
@@ -373,7 +375,13 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return allTicketsOfUser;
     }
 
-    function makeCreatingUser() public onlyExistingUser returns (bool) {
+    function makeCreatingUser()
+        public
+        returns (
+            // onlyExistingUser
+            bool
+        )
+    {
         StekcitUser memory userToBeUpdated = getUserByWalletAddress(msg.sender);
 
         if (!userToBeUpdated.isBlank) {
@@ -436,8 +444,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         bool _forImmediatePublishing
     )
         public
-        onlyExistingUser
-        onlyCreatingUser(msg.sender)
+        // onlyExistingUser
+        // onlyCreatingUser(msg.sender)
         returns (StekcitEvent memory)
     {
         uint256 newEventId = currentEventId;
@@ -554,13 +562,11 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return blankTicket;
     }
 
-
-       function setVerificationRequestIdForTicket(
+    function setVerificationRequestIdForTicket(
         uint256 _ticketId,
         uint256 _verificationRequestId
     ) private returns (StekcitTicket memory) {
         StekcitTicket memory updatedTicket = getTicketById(_ticketId);
-
 
         updatedTicket.verificationRequestId = _verificationRequestId;
 
@@ -581,7 +587,6 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
         return updatedTicket;
     }
-
 
     function getTicketByVerificationRequestId(uint256 _verificationRequestId)
         public
@@ -604,10 +609,9 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return blankTicket;
     }
 
-
     function createTicketForUser(uint256 _eventId)
         public
-        onlyExistingUser
+        // onlyExistingUser
         returns (StekcitTicket memory)
     {
         StekcitEvent memory currentEvent = allStekcitEvents[_eventId];
@@ -659,7 +663,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     function checkIfEventIsAlreadyPaidOut(uint256 _eventId)
         public
         view
-        onlyCreatingUserOfEvent(_eventId)
+        // onlyCreatingUserOfEvent(_eventId)
         returns (bool)
     {
         for (
@@ -679,7 +683,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function processPayout(uint256 _eventId)
         public
-        onlyCreatingUserOfEvent(_eventId)
+        // onlyCreatingUserOfEvent(_eventId)
         returns (StekcitPayout memory)
     {
         // Check if event has already been paid out (if payout exists)
@@ -751,7 +755,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function createPayout(uint256 _eventId, uint256 _amount)
         private
-        onlyCreatingUserOfEvent(_eventId)
+        // onlyCreatingUserOfEvent(_eventId)
         returns (StekcitPayout memory)
     {
         uint256 newPayoutId = currentPayoutId;
@@ -835,7 +839,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function publishEvent(uint256 _eventId)
         public
-        onlyCreatingUserOfEvent(_eventId)
+        // onlyCreatingUserOfEvent(_eventId)
         returns (StekcitEvent memory)
     {
         StekcitEvent memory eventToVerifyAndUpdate = getEventById(_eventId);
@@ -905,7 +909,9 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
         updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
 
-        createFunctionsError(err);
+        lastFunctionsError = err;
+
+        // createFunctionsError(err);
     }
 
     function updateWelcomeEmailVerificationId(
@@ -927,15 +933,15 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return false;
     }
 
-    function createFunctionsError(bytes memory error) private {
-        uint256 newFunctionsErrorId = currentFunctionsErrorId;
+    // function createFunctionsError(bytes memory error) private {
+    //     uint256 newFunctionsErrorId = currentFunctionsErrorId;
 
-        allStekcitFunctionsErrors.push(
-            StekcitFunctionsError(newFunctionsErrorId, error)
-        );
+    //     allStekcitFunctionsErrors.push(
+    //         StekcitFunctionsError(newFunctionsErrorId, error)
+    //     );
 
-        currentFunctionsErrorId++;
-    }
+    //     currentFunctionsErrorId++;
+    // }
 
     // <--- CHAINLINK VRF IMPLEMENTATION METHODS --->
 
@@ -959,31 +965,31 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         returns (StekcitTicket memory)
     {
         uint256 ticketVerificationId = requestRandomness(100000, 1, 1);
-        return setVerificationRequestIdForTicket(_ticketId, ticketVerificationId);
+        return
+            setVerificationRequestIdForTicket(_ticketId, ticketVerificationId);
     }
-
-
 
     // Callback for Chainlink VRF
     function fulfillRandomWords(
         uint256 _requestId,
         uint256[] memory _randomWords
     ) internal override {
+        // Block for verifying events
         StekcitEvent memory updatedEvent = getEventByVerificationRequestId(
             _requestId
         );
 
-        if (!updatedEvent.isBlank){
+        if (!updatedEvent.isBlank) {
             setVerificationIdForEvent(updatedEvent.id, _randomWords[0]);
         }
-    
+
+        // Block for verifying tickets
         StekcitTicket memory updatedTicket = getTicketByVerificationRequestId(
             _requestId
         );
 
-        if (!updatedTicket.isBlank){
+        if (!updatedTicket.isBlank) {
             setVerificationIdForTicket(updatedTicket.id, _randomWords[0]);
         }
-
     }
 }

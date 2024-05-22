@@ -1,2 +1,2 @@
 # Stekcit BM
-![Stekcit BM](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/d8a167e4-7a95-4c77-a242-95391e3e49e0)
+![Stekcit BM](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/79e65320-8a8c-49ad-8e4f-314981e0d2f3)

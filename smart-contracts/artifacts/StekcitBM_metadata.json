@@ -2031,11 +2031,11 @@
 			]
 		},
 		"smart-contracts/StekcitBM.sol": {
-			"keccak256": "0xc05339df363f3c2ccd3a48f7a093ff7ef4a35777de5b66a5bfe5a7fa915dbfc0",
+			"keccak256": "0xdc1ea424191d411b94d349d77a35a9e8fc70159185786ad59bd6cd94d38ee286",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ad74bb6215d750a86b8925e37fd3888e018a60095885bf7b19001eb0c67e0fda",
-				"dweb:/ipfs/QmRhaFgdvH4kzSysYPHe9K2goQBAsgQW8MD3MjKooMokXw"
+				"bzz-raw://34991f45f163efa84cd70509d0fd3e0b9dea312c53722988415f0b01e9839136",
+				"dweb:/ipfs/QmPZ2m53fnys34xcZBx5LRTvEKYQQd7EGnJ3hFjSHtdgru"
 			]
 		},
 		"smart-contracts/StekcitBMInterfaces.sol": {

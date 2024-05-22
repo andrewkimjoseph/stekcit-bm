@@ -444,9 +444,11 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         bool _forImmediatePublishing
     )
         public
-        // onlyExistingUser
-        // onlyCreatingUser(msg.sender)
-        returns (StekcitEvent memory)
+        returns (
+            // onlyExistingUser
+            // onlyCreatingUser(msg.sender)
+            StekcitEvent memory
+        )
     {
         uint256 newEventId = currentEventId;
         uint256 createdAt = block.timestamp;
@@ -611,8 +613,10 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function createTicketForUser(uint256 _eventId)
         public
-        // onlyExistingUser
-        returns (StekcitTicket memory)
+        returns (
+            // onlyExistingUser
+            StekcitTicket memory
+        )
     {
         StekcitEvent memory currentEvent = allStekcitEvents[_eventId];
 
@@ -663,8 +667,10 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     function checkIfEventIsAlreadyPaidOut(uint256 _eventId)
         public
         view
-        // onlyCreatingUserOfEvent(_eventId)
-        returns (bool)
+        returns (
+            // onlyCreatingUserOfEvent(_eventId)
+            bool
+        )
     {
         for (
             uint256 payoutId = 0;
@@ -683,8 +689,10 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function processPayout(uint256 _eventId)
         public
-        // onlyCreatingUserOfEvent(_eventId)
-        returns (StekcitPayout memory)
+        returns (
+            // onlyCreatingUserOfEvent(_eventId)
+            StekcitPayout memory
+        )
     {
         // Check if event has already been paid out (if payout exists)
         StekcitEvent memory eventToBePaidOut = allStekcitEvents[_eventId];
@@ -755,8 +763,10 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function createPayout(uint256 _eventId, uint256 _amount)
         private
-        // onlyCreatingUserOfEvent(_eventId)
-        returns (StekcitPayout memory)
+        returns (
+            // onlyCreatingUserOfEvent(_eventId)
+            StekcitPayout memory
+        )
     {
         uint256 newPayoutId = currentPayoutId;
 
@@ -839,8 +849,10 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function publishEvent(uint256 _eventId)
         public
-        // onlyCreatingUserOfEvent(_eventId)
-        returns (StekcitEvent memory)
+        returns (
+            // onlyCreatingUserOfEvent(_eventId)
+            StekcitEvent memory
+        )
     {
         StekcitEvent memory eventToVerifyAndUpdate = getEventById(_eventId);
 

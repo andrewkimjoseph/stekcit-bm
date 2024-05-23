@@ -30,7 +30,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     uint256 private currentPayoutId;
     uint256 private currentFunctionsErrorId;
 
-    ERC20 USDC = ERC20(0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582);
+    ERC20 USDC = ERC20(0x5425890298aed601595a70AB815c96711a31Bc65);
 
     // LINK on Fuji
     address linkAddress = 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846;
@@ -442,13 +442,11 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         uint256 _amount,
         uint256 _dateAndTime,
         bool _forImmediatePublishing
-    )
-        public
-        // returns (
-        //     // onlyExistingUser
-        //     // onlyCreatingUser(msg.sender)
-        //     StekcitEvent memory
-        // )
+    ) public // returns (
+    //     // onlyExistingUser
+    //     // onlyCreatingUser(msg.sender)
+    //     StekcitEvent memory
+    // )
     {
         uint256 newEventId = currentEventId;
         uint256 createdAt = block.timestamp;
@@ -611,12 +609,10 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return blankTicket;
     }
 
-    function createTicketForUser(uint256 _eventId)
-        public
-        // returns (
-        //     // onlyExistingUser
-        //     StekcitTicket memory
-        // )
+    function createTicketForUser(uint256 _eventId) public // returns (
+    //     // onlyExistingUser
+    //     StekcitTicket memory
+    // )
     {
         StekcitEvent memory currentEvent = allStekcitEvents[_eventId];
 
@@ -625,7 +621,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
             );
 
         if (ticketOfUserForThisEventExists) {
-            revert('Ticket already exists');
+            revert("Ticket already exists");
             // return getTicketByEventIdAndWalletAddress(_eventId, msg.sender);
         }
 
@@ -920,27 +916,28 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
             (uint256, bool)
         );
 
-        updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
-
         lastFunctionsError = err;
+
+        updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
 
         // createFunctionsError(err);
     }
-
+    
     function updateWelcomeEmailVerificationId(
         uint256 _userId,
         bool _isWelcomeEmailSent,
         bytes32 _welcomeEmailVerificationId
     ) private returns (bool) {
-        StekcitUser memory userToBeUpdated = allStekcitUsers[_userId];
+        StekcitUser memory updatedUser = allStekcitUsers[_userId];
 
-        if (!userToBeUpdated.isBlank) {
-            uint256 userId = userToBeUpdated.id;
-            userToBeUpdated.isWelcomeEmailSent = _isWelcomeEmailSent;
-            userToBeUpdated
+        if (!updatedUser.isBlank) {
+            updatedUser.isWelcomeEmailSent = _isWelcomeEmailSent;
+
+
+            updatedUser
                 .welcomeEmailVerificationId = _welcomeEmailVerificationId;
 
-            allStekcitUsers[userId] = userToBeUpdated;
+            allStekcitUsers[updatedUser.id] = updatedUser;
             return true;
         }
         return false;

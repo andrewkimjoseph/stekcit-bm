@@ -20,8 +20,6 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     StekcitPayout[] private allStekcitPayouts;
     // StekcitFunctionsError[] public allStekcitFunctionsErrors;
 
-    uint256 stekcitSuccessCode = 200;
-
     address public stekcitBMOwnerAddress;
 
     bytes public lastFunctionsError;
@@ -135,7 +133,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
         currentUserId++;
 
-        StekcitUser memory newUser = getUserByUserId(newUserId);
+        StekcitUser memory newUser = getUserById(newUserId);
 
         return newUser;
     }
@@ -156,7 +154,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return blankUser;
     }
 
-    function getUserByUserId(uint256 _userId)
+    function getUserById(uint256 _userId)
         public
         view
         returns (StekcitUser memory)
@@ -443,9 +441,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         string memory _link,
         uint256 _amount,
         uint256 _dateAndTime,
-        bool _forImmediatePublishing // returns ( //     // onlyExistingUser //     // onlyCreatingUser(msg.sender) //     StekcitEvent memory
-    ) public // )
-    {
+        bool _forImmediatePublishing // returns ( //     // onlyExistingUser //     // onlyCreatingUser(msg.sender) //     StekcitEvent memory // )
+    ) public {
         uint256 newEventId = currentEventId;
         uint256 createdAt = block.timestamp;
         uint256 updatedAt = block.timestamp;
@@ -907,18 +904,16 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         bytes memory response,
         bytes memory err
     ) internal override {
-        (uint256 userId, uint256 returnedCode) = abi.decode(
+        (uint256 userId, bool isWelcomeEmailSent) = abi.decode(
             response,
-            (uint256, uint256)
+            (uint256, bool)
         );
 
         StekcitUser memory updatedUser = allStekcitUsers[userId];
 
-        if (!updatedUser.isBlank && (returnedCode == stekcitSuccessCode)) {
-            
+        if (!updatedUser.isBlank) {
             updatedUser.isWelcomeEmailSent = true;
             updatedUser.welcomeEmailVerificationId = requestId;
-
             allStekcitUsers[userId] = updatedUser;
         }
 

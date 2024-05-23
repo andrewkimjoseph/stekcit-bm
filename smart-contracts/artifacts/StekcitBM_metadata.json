@@ -1121,7 +1121,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "getUserByUserId",
+				"name": "getUserById",
 				"outputs": [
 					{
 						"components": [
@@ -1815,11 +1815,11 @@
 			]
 		},
 		"smart-contracts/StekcitBM.sol": {
-			"keccak256": "0x187319e3e156372995e89342406862f5b966088788d99d5dbef44329e54e5125",
+			"keccak256": "0xf7bd795c3c46bb05167b004f8e89bd09f5a1b41f1d6084e3b35f30b27a050492",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5e73a908d53e31359cfdc6dfb769311ee0b460bc976d71abf8ff4f1aeb1287c7",
-				"dweb:/ipfs/QmaFSs1o6r1nBXN95JRPFtmWrHdiKQi7nXpTjyh98bpPxn"
+				"bzz-raw://a49d0531ccbac0f544411f5dc13790887ab1787c8a8bc8126694fc85a4272fc7",
+				"dweb:/ipfs/QmZPVhCnh6eqx1BbGVwfu4suQFuUBh7ZQchyWmkKweMtyt"
 			]
 		},
 		"smart-contracts/StekcitBMInterfaces.sol": {

@@ -20,6 +20,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     StekcitPayout[] private allStekcitPayouts;
     // StekcitFunctionsError[] public allStekcitFunctionsErrors;
 
+    uint256 stekcitSuccessCode = 200;
+
     address public stekcitBMOwnerAddress;
 
     bytes public lastFunctionsError;
@@ -441,12 +443,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         string memory _link,
         uint256 _amount,
         uint256 _dateAndTime,
-        bool _forImmediatePublishing
-    ) public // returns (
-    //     // onlyExistingUser
-    //     // onlyCreatingUser(msg.sender)
-    //     StekcitEvent memory
-    // )
+        bool _forImmediatePublishing // returns ( //     // onlyExistingUser //     // onlyCreatingUser(msg.sender) //     StekcitEvent memory
+    ) public // )
     {
         uint256 newEventId = currentEventId;
         uint256 createdAt = block.timestamp;
@@ -609,11 +607,9 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return blankTicket;
     }
 
-    function createTicketForUser(uint256 _eventId) public // returns (
-    //     // onlyExistingUser
-    //     StekcitTicket memory
-    // )
-    {
+    function createTicketForUser(
+        uint256 _eventId // returns ( //     // onlyExistingUser //     StekcitTicket memory // )
+    ) public {
         StekcitEvent memory currentEvent = allStekcitEvents[_eventId];
 
         bool ticketOfUserForThisEventExists = checkIfTicketOfUserForThisEventExists(
@@ -911,37 +907,35 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         bytes memory response,
         bytes memory err
     ) internal override {
-        (uint256 userId, bool isWelcomeEmailSent) = abi.decode(
+        (uint256 userId, uint256 returnedCode) = abi.decode(
             response,
-            (uint256, bool)
+            (uint256, uint256)
         );
+
+        StekcitUser memory updatedUser = allStekcitUsers[userId];
+
+        if (!updatedUser.isBlank && (returnedCode == stekcitSuccessCode)) {
+            
+            updatedUser.isWelcomeEmailSent = true;
+            updatedUser.welcomeEmailVerificationId = requestId;
+
+            allStekcitUsers[userId] = updatedUser;
+        }
 
         lastFunctionsError = err;
 
-        updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
+        // updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
 
         // createFunctionsError(err);
     }
-    
-    function updateWelcomeEmailVerificationId(
-        uint256 _userId,
-        bool _isWelcomeEmailSent,
-        bytes32 _welcomeEmailVerificationId
-    ) private returns (bool) {
-        StekcitUser memory updatedUser = allStekcitUsers[_userId];
 
-        if (!updatedUser.isBlank) {
-            updatedUser.isWelcomeEmailSent = _isWelcomeEmailSent;
-
-
-            updatedUser
-                .welcomeEmailVerificationId = _welcomeEmailVerificationId;
-
-            allStekcitUsers[updatedUser.id] = updatedUser;
-            return true;
-        }
-        return false;
-    }
+    // function updateWelcomeEmailVerificationId(
+    //     uint256 _userId,
+    //     bool _isWelcomeEmailSent,
+    //     bytes32 _welcomeEmailVerificationId
+    // ) private returns (bool) {
+    //     return false;
+    // }
 
     // function createFunctionsError(bytes memory error) private {
     //     uint256 newFunctionsErrorId = currentFunctionsErrorId;

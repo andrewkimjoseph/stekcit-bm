@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.19;
+pragma solidity 0.8.19;
 
 import {VRFV2WrapperConsumerBase} from "@chainlink/contracts@1.1.0/src/v0.8/vrf/VRFV2WrapperConsumerBase.sol";
 import {LinkTokenInterface} from "@chainlink/contracts@1.1.0/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
 import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol";
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
 
-import {StekcitUser, StekcitEvent, StekcitTicket, StekcitPayout, StekcitFunctionsError} from "./StekcitBMStructs.sol";
+import {StekcitUser, StekcitEvent, StekcitTicket, StekcitPayout} from "./StekcitBMStructs.sol";
 
 import {ERC20} from "./StekcitBMInterfaces.sol";
 
@@ -18,7 +18,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     StekcitEvent[] private allStekcitEvents;
     StekcitTicket[] private allStekcitTickets;
     StekcitPayout[] private allStekcitPayouts;
-    StekcitFunctionsError[] public allStekcitFunctionsErrors;
+    // StekcitFunctionsError[] public allStekcitFunctionsErrors;
 
     address public stekcitBMOwnerAddress;
 
@@ -30,7 +30,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     uint256 private currentPayoutId;
     uint256 private currentFunctionsErrorId;
 
-    ERC20 cUSD = ERC20(0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1);
+    ERC20 USDC = ERC20(0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582);
 
     // LINK on Fuji
     address linkAddress = 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846;
@@ -444,16 +444,16 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         bool _forImmediatePublishing
     )
         public
-        returns (
-            // onlyExistingUser
-            // onlyCreatingUser(msg.sender)
-            StekcitEvent memory
-        )
+        // returns (
+        //     // onlyExistingUser
+        //     // onlyCreatingUser(msg.sender)
+        //     StekcitEvent memory
+        // )
     {
         uint256 newEventId = currentEventId;
         uint256 createdAt = block.timestamp;
         uint256 updatedAt = block.timestamp;
-        uint256 amountInEthers = _amount * (10**cUSD.decimals());
+        uint256 amountInEthers = _amount * (10**USDC.decimals());
 
         allStekcitEvents.push(
             StekcitEvent(
@@ -479,16 +479,16 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
         currentEventId++;
 
-        return getEventById(newEventId);
+        // return getEventById(newEventId);
     }
 
-    function getTicketById(uint256 _ticketId)
-        public
-        view
-        returns (StekcitTicket memory)
-    {
-        return allStekcitTickets[_ticketId];
-    }
+    // function getTicketById(uint256 _ticketId)
+    //     public
+    //     view
+    //     returns (StekcitTicket memory)
+    // {
+    //     return allStekcitTickets[_ticketId];
+    // }
 
     function getEventAttendees(uint256 _eventId)
         public
@@ -568,7 +568,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         uint256 _ticketId,
         uint256 _verificationRequestId
     ) private returns (StekcitTicket memory) {
-        StekcitTicket memory updatedTicket = getTicketById(_ticketId);
+        StekcitTicket memory updatedTicket = allStekcitTickets[_ticketId];
 
         updatedTicket.verificationRequestId = _verificationRequestId;
 
@@ -581,7 +581,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         uint256 _ticketId,
         uint256 _verificationId
     ) private returns (StekcitTicket memory) {
-        StekcitTicket memory updatedTicket = getTicketById(_ticketId);
+        StekcitTicket memory updatedTicket = allStekcitTickets[_ticketId];
 
         updatedTicket.verificationId = _verificationId;
 
@@ -613,10 +613,10 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     function createTicketForUser(uint256 _eventId)
         public
-        returns (
-            // onlyExistingUser
-            StekcitTicket memory
-        )
+        // returns (
+        //     // onlyExistingUser
+        //     StekcitTicket memory
+        // )
     {
         StekcitEvent memory currentEvent = allStekcitEvents[_eventId];
 
@@ -625,7 +625,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
             );
 
         if (ticketOfUserForThisEventExists) {
-            return getTicketByEventIdAndWalletAddress(_eventId, msg.sender);
+            revert('Ticket already exists');
+            // return getTicketByEventIdAndWalletAddress(_eventId, msg.sender);
         }
 
         uint256 newTicketId = currentTicketId;
@@ -644,7 +645,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
         currentTicketId++;
 
-        return getTicketById(newTicketId);
+        // return getTicketById(newTicketId);
     }
 
     function checkIfUserAlreadyHasTicket(
@@ -725,7 +726,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         }
 
         // Transfer to creating user
-        bool isCreatingUserPaid = cUSD.transfer(
+        bool isCreatingUserPaid = USDC.transfer(
             eventToBePaidOut.creatingUserWalletAddress,
             totalAmountToBePaidOutToCreatingUser
         );
@@ -736,7 +737,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
             // Transfer to stekcitBMOwner
 
-            bool isStekcitBMOwnerPaid = cUSD.transfer(
+            bool isStekcitBMOwnerPaid = USDC.transfer(
                 stekcitBMOwnerAddress,
                 amountToBePaidOutToStekcitBMOwner
             );
@@ -964,7 +965,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     //     return requestRandomness(100000, 1, 1);
     // }
 
-    function verifyEventAndSetVerificationId(uint256 _eventId)
+    function verifyEventAndSetVerificationRequestId(uint256 _eventId)
         public
         returns (StekcitEvent memory)
     {
@@ -972,7 +973,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return setVerificationRequestIdForEvent(_eventId, eventVerificationId);
     }
 
-    function verifyTicketAndSetVerificationId(uint256 _ticketId)
+    function verifyTicketAndSetVerificationRequestId(uint256 _ticketId)
         public
         returns (StekcitTicket memory)
     {

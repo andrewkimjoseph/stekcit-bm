@@ -1,0 +1,138 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_username",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_emailAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "createUser",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "getUserByWalletAddress",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "walletAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "username",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "emailAddress",
+								"type": "string"
+							},
+							{
+								"internalType": "bool",
+								"name": "isCreatingUser",
+								"type": "bool"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
+							},
+							{
+								"internalType": "bool",
+								"name": "isWelcomeEmailSent",
+								"type": "bool"
+							},
+							{
+								"internalType": "bytes32",
+								"name": "welcomeEmailVerificationId",
+								"type": "bytes32"
+							}
+						],
+						"internalType": "struct StekcitUser",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"smart-contracts/StekcitBMUser.sol": "StekcitUserBM"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"smart-contracts/StekcitBMStructs.sol": {
+			"keccak256": "0x24aa146f39e4e16924c6572c741b3f17051437ca0e86a20744941f226882d6e1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ea0ae2da6365c002873e031dc2d1bb5449bd338b515844ccaef7568249eda29c",
+				"dweb:/ipfs/QmYXDqebn3dyAkwYRaj1AGF2rD4jbm6FsDPyEn41qjCtsu"
+			]
+		},
+		"smart-contracts/StekcitBMUser.sol": {
+			"keccak256": "0xaedc6cc9a38a6f745693d77da2dd39d7b87a759cf22a86f628e0602d39b3651a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://394a8ae7be10bed6622425834c87ccbc0d356e28ccbe4aadc2f67ee6df8b4583",
+				"dweb:/ipfs/QmYdtxvydS97kLu612VGyqy4aKnGJvM6H5R25r7hpgibEo"
+			]
+		}
+	},
+	"version": 1
+}

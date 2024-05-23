@@ -1,0 +1,141 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_eventContractAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_ticketContractAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_eventId",
+						"type": "uint256"
+					}
+				],
+				"name": "getTotalAmountPaidToEventInEthers",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_eventId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_creatingUserWalletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "contract ERC20",
+						"name": "cUSD",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_stekcitBMOwnerAddress",
+						"type": "address"
+					}
+				],
+				"name": "processPayout",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"smart-contracts/StekcitBMPayout.sol": "StekcitBMPayout"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"smart-contracts/StekcitBMEvent.sol": {
+			"keccak256": "0x693c3350b3eab4b56159b21518d06cd4215524c70a0aa5733ed25ac1e3ba482d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1389a8e958029ea7d4ecd2c17cfc2dea6025ed3bdb81ab4290f2ce76659890af",
+				"dweb:/ipfs/QmWvKVZLmDdV6BojNDD5HN2w1VUopFokBZt6oQ8fazvXyS"
+			]
+		},
+		"smart-contracts/StekcitBMInterfaces.sol": {
+			"keccak256": "0x3762521ab7645888f1b68ca6aabb0408bddf12977313ce61c8ace6e30c47bbf0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://141c333508d1d8091e1e831b9d7c4ddaa434a102ca84697c47dc4dfbabd11efa",
+				"dweb:/ipfs/QmXE5bzkgcdbnifioVzVtg84Z7inw3JyfNPSbhYWTjrcoo"
+			]
+		},
+		"smart-contracts/StekcitBMPayout.sol": {
+			"keccak256": "0xf08d847e412de9c6692b14eaa562007dc75b1d4bab59379f151230c1f19dc9b4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://13519c34598fc54d7859ce1cdbef4a121c84f451d413051b72181bf540bae0fb",
+				"dweb:/ipfs/QmaNwn8p8Debz97QN9UqmG85rhPirUuaXV9XZqLjiw1MnN"
+			]
+		},
+		"smart-contracts/StekcitBMStructs.sol": {
+			"keccak256": "0x24aa146f39e4e16924c6572c741b3f17051437ca0e86a20744941f226882d6e1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ea0ae2da6365c002873e031dc2d1bb5449bd338b515844ccaef7568249eda29c",
+				"dweb:/ipfs/QmYXDqebn3dyAkwYRaj1AGF2rD4jbm6FsDPyEn41qjCtsu"
+			]
+		},
+		"smart-contracts/StekcitBMTicket.sol": {
+			"keccak256": "0x62987e299378b91d5f5b81fabcf1d6ffcdac4f08a02e7ed62856dfbd37b80c48",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://330218e107a72b3de212dd19a940dea39894291fece8ada5c7bd4b7af9c225b9",
+				"dweb:/ipfs/Qmf9anz6DKKPyzosNzBP45wXS69th3JNLRwehLck2HqxsV"
+			]
+		}
+	},
+	"version": 1
+}

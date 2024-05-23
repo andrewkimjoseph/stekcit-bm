@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.26+commit.8a97fa7a"
+		"version": "0.8.19+commit.7dd6d404"
 	},
 	"language": "Solidity",
 	"output": {
@@ -66,30 +66,6 @@
 				],
 				"name": "RequestSent",
 				"type": "event"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "allStekcitFunctionsErrors",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "bytes",
-						"name": "error",
-						"type": "bytes"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			},
 			{
 				"inputs": [
@@ -187,100 +163,7 @@
 					}
 				],
 				"name": "createEvent",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "uint256",
-								"name": "id",
-								"type": "uint256"
-							},
-							{
-								"internalType": "address",
-								"name": "creatingUserWalletAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "string",
-								"name": "title",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "description",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "link",
-								"type": "string"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amountInEthers",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "createdAt",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "updatedAt",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "dateAndTime",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "isBlank",
-								"type": "bool"
-							},
-							{
-								"internalType": "bool",
-								"name": "isPublished",
-								"type": "bool"
-							},
-							{
-								"internalType": "bool",
-								"name": "isVerified",
-								"type": "bool"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationAmountInEthers",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "isEnded",
-								"type": "bool"
-							},
-							{
-								"internalType": "bool",
-								"name": "isPaidOut",
-								"type": "bool"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationRequestId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationId",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct StekcitEvent",
-						"name": "",
-						"type": "tuple"
-					}
-				],
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -293,50 +176,7 @@
 					}
 				],
 				"name": "createTicketForUser",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "uint256",
-								"name": "id",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "eventId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "address",
-								"name": "attendingUserWalletAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amountPaidInEthers",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "isBlank",
-								"type": "bool"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationRequestId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationId",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct StekcitTicket",
-						"name": "",
-						"type": "tuple"
-					}
-				],
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -1164,62 +1004,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_ticketId",
-						"type": "uint256"
-					}
-				],
-				"name": "getTicketById",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "uint256",
-								"name": "id",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "eventId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "address",
-								"name": "attendingUserWalletAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amountPaidInEthers",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "isBlank",
-								"type": "bool"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationRequestId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationId",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct StekcitTicket",
-						"name": "",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
 						"name": "_verificationRequestId",
 						"type": "uint256"
 					}
@@ -1755,7 +1539,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "verifyEventAndSetVerificationId",
+				"name": "verifyEventAndSetVerificationRequestId",
 				"outputs": [
 					{
 						"components": [
@@ -1861,7 +1645,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "verifyTicketAndSetVerificationId",
+				"name": "verifyTicketAndSetVerificationRequestId",
 				"outputs": [
 					{
 						"components": [
@@ -1938,7 +1722,7 @@
 		"compilationTarget": {
 			"smart-contracts/StekcitBM.sol": "StekcitBM"
 		},
-		"evmVersion": "cancun",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -2031,11 +1815,11 @@
 			]
 		},
 		"smart-contracts/StekcitBM.sol": {
-			"keccak256": "0xdc1ea424191d411b94d349d77a35a9e8fc70159185786ad59bd6cd94d38ee286",
+			"keccak256": "0xbeef9771b5fb5df6c9ee34d8bb0a65b87acaa08874fa62f17720946091baeca4",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://34991f45f163efa84cd70509d0fd3e0b9dea312c53722988415f0b01e9839136",
-				"dweb:/ipfs/QmPZ2m53fnys34xcZBx5LRTvEKYQQd7EGnJ3hFjSHtdgru"
+				"bzz-raw://655bbb254e409e60f371a2b2abc4be66fa7a814002ef783ef9c02ddfb2cd7dc4",
+				"dweb:/ipfs/QmaUKJnDEotvGaYYVN7xvxKQCuX6fHMNoM3ygT3KpLFvgQ"
 			]
 		},
 		"smart-contracts/StekcitBMInterfaces.sol": {
@@ -2047,11 +1831,11 @@
 			]
 		},
 		"smart-contracts/StekcitBMStructs.sol": {
-			"keccak256": "0x6706cf442e4c68bfb883029e9ba0bda851410fa66011f148ad81b9b355544017",
+			"keccak256": "0x24aa146f39e4e16924c6572c741b3f17051437ca0e86a20744941f226882d6e1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8dbb8ee048a93874593a65b37ce28ef41d34ece1355a173e9cd01780936652bd",
-				"dweb:/ipfs/Qmc8AyLGXuEofsyo4bbcgUDdXC3sBwTg8tZsnttkrxJcKr"
+				"bzz-raw://ea0ae2da6365c002873e031dc2d1bb5449bd338b515844ccaef7568249eda29c",
+				"dweb:/ipfs/QmYXDqebn3dyAkwYRaj1AGF2rD4jbm6FsDPyEn41qjCtsu"
 			]
 		}
 	},

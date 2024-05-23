@@ -1,0 +1,211 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_title",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_description",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_link",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_dateAndTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "_forImmediatePublishing",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "_creatingUserWalletAddress",
+						"type": "address"
+					}
+				],
+				"name": "createEvent",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_eventId",
+						"type": "uint256"
+					}
+				],
+				"name": "getEventById",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "creatingUserWalletAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "title",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "link",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "amountInEthers",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "createdAt",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "updatedAt",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "dateAndTime",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isBlank",
+								"type": "bool"
+							},
+							{
+								"internalType": "bool",
+								"name": "isPublished",
+								"type": "bool"
+							},
+							{
+								"internalType": "bool",
+								"name": "isVerified",
+								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "verificationAmountInEthers",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "isEnded",
+								"type": "bool"
+							},
+							{
+								"internalType": "bool",
+								"name": "isPaidOut",
+								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "verificationRequestId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "verificationId",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct StekcitEvent",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"smart-contracts/StekcitBMEvent.sol": "StekcitBMEventCo"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"smart-contracts/StekcitBMEvent.sol": {
+			"keccak256": "0x3068f8586faa50c4a9e844387583cd06a1cde0d23714416df23bf301c7a75ad0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://8b418e7d1334e4beabdba7c77b3eeb8dd375ce76b3bf97bf6ad2a9709d30671b",
+				"dweb:/ipfs/QmRXpoaG9zyMPNhrvSiVvbNyCQHNmdShPSXBYBF9RHtTV3"
+			]
+		},
+		"smart-contracts/StekcitBMInterfaces.sol": {
+			"keccak256": "0x3762521ab7645888f1b68ca6aabb0408bddf12977313ce61c8ace6e30c47bbf0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://141c333508d1d8091e1e831b9d7c4ddaa434a102ca84697c47dc4dfbabd11efa",
+				"dweb:/ipfs/QmXE5bzkgcdbnifioVzVtg84Z7inw3JyfNPSbhYWTjrcoo"
+			]
+		},
+		"smart-contracts/StekcitBMStructs.sol": {
+			"keccak256": "0x24aa146f39e4e16924c6572c741b3f17051437ca0e86a20744941f226882d6e1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ea0ae2da6365c002873e031dc2d1bb5449bd338b515844ccaef7568249eda29c",
+				"dweb:/ipfs/QmYXDqebn3dyAkwYRaj1AGF2rD4jbm6FsDPyEn41qjCtsu"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,99 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_eventContractAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_eventId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_attendingUserWalletAddress",
+						"type": "address"
+					}
+				],
+				"name": "createTicketForUser",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"smart-contracts/StekcitBMTicket.sol": "StekcitBMTicketContract"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"smart-contracts/StekcitBMEvent.sol": {
+			"keccak256": "0x693c3350b3eab4b56159b21518d06cd4215524c70a0aa5733ed25ac1e3ba482d",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1389a8e958029ea7d4ecd2c17cfc2dea6025ed3bdb81ab4290f2ce76659890af",
+				"dweb:/ipfs/QmWvKVZLmDdV6BojNDD5HN2w1VUopFokBZt6oQ8fazvXyS"
+			]
+		},
+		"smart-contracts/StekcitBMInterfaces.sol": {
+			"keccak256": "0x3762521ab7645888f1b68ca6aabb0408bddf12977313ce61c8ace6e30c47bbf0",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://141c333508d1d8091e1e831b9d7c4ddaa434a102ca84697c47dc4dfbabd11efa",
+				"dweb:/ipfs/QmXE5bzkgcdbnifioVzVtg84Z7inw3JyfNPSbhYWTjrcoo"
+			]
+		},
+		"smart-contracts/StekcitBMStructs.sol": {
+			"keccak256": "0x24aa146f39e4e16924c6572c741b3f17051437ca0e86a20744941f226882d6e1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ea0ae2da6365c002873e031dc2d1bb5449bd338b515844ccaef7568249eda29c",
+				"dweb:/ipfs/QmYXDqebn3dyAkwYRaj1AGF2rD4jbm6FsDPyEn41qjCtsu"
+			]
+		},
+		"smart-contracts/StekcitBMTicket.sol": {
+			"keccak256": "0xab8d3d571033e6a181c420642692abb59a1071ebaceeeecfc69f6351f7ed9d1a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3e86be3616c1c949614b426d51f09c85bb79b886feff579bfc556d15c7623447",
+				"dweb:/ipfs/QmSdQAhG88eXsXJ9hWsDBdRMUW2BcSSyxD1dNF6dnG9KYm"
+			]
+		}
+	},
+	"version": 1
+}

@@ -30,7 +30,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     uint256 private currentPayoutId;
     uint256 private currentFunctionsErrorId;
 
-    ERC20 USDC = ERC20(0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582);
+    ERC20 USDC = ERC20(0x5425890298aed601595a70AB815c96711a31Bc65);
 
     // LINK on Fuji
     address linkAddress = 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846;
@@ -133,7 +133,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
         currentUserId++;
 
-        StekcitUser memory newUser = getUserByUserId(newUserId);
+        StekcitUser memory newUser = getUserById(newUserId);
 
         return newUser;
     }
@@ -154,7 +154,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return blankUser;
     }
 
-    function getUserByUserId(uint256 _userId)
+    function getUserById(uint256 _userId)
         public
         view
         returns (StekcitUser memory)
@@ -441,15 +441,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         string memory _link,
         uint256 _amount,
         uint256 _dateAndTime,
-        bool _forImmediatePublishing
-    )
-        public
-        // returns (
-        //     // onlyExistingUser
-        //     // onlyCreatingUser(msg.sender)
-        //     StekcitEvent memory
-        // )
-    {
+        bool _forImmediatePublishing // returns ( //     // onlyExistingUser //     // onlyCreatingUser(msg.sender) //     StekcitEvent memory // )
+    ) public {
         uint256 newEventId = currentEventId;
         uint256 createdAt = block.timestamp;
         uint256 updatedAt = block.timestamp;
@@ -611,13 +604,9 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return blankTicket;
     }
 
-    function createTicketForUser(uint256 _eventId)
-        public
-        // returns (
-        //     // onlyExistingUser
-        //     StekcitTicket memory
-        // )
-    {
+    function createTicketForUser(
+        uint256 _eventId // returns ( //     // onlyExistingUser //     StekcitTicket memory // )
+    ) public {
         StekcitEvent memory currentEvent = allStekcitEvents[_eventId];
 
         bool ticketOfUserForThisEventExists = checkIfTicketOfUserForThisEventExists(
@@ -625,7 +614,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
             );
 
         if (ticketOfUserForThisEventExists) {
-            revert('Ticket already exists');
+            revert("Ticket already exists");
             // return getTicketByEventIdAndWalletAddress(_eventId, msg.sender);
         }
 
@@ -920,31 +909,28 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
             (uint256, bool)
         );
 
-        updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
+        StekcitUser memory updatedUser = allStekcitUsers[userId];
+
+        if (!updatedUser.isBlank) {
+            updatedUser.isWelcomeEmailSent = true;
+            updatedUser.welcomeEmailVerificationId = requestId;
+            allStekcitUsers[userId] = updatedUser;
+        }
 
         lastFunctionsError = err;
+
+        // updateWelcomeEmailVerificationId(userId, isWelcomeEmailSent, requestId);
 
         // createFunctionsError(err);
     }
 
-    function updateWelcomeEmailVerificationId(
-        uint256 _userId,
-        bool _isWelcomeEmailSent,
-        bytes32 _welcomeEmailVerificationId
-    ) private returns (bool) {
-        StekcitUser memory userToBeUpdated = allStekcitUsers[_userId];
-
-        if (!userToBeUpdated.isBlank) {
-            uint256 userId = userToBeUpdated.id;
-            userToBeUpdated.isWelcomeEmailSent = _isWelcomeEmailSent;
-            userToBeUpdated
-                .welcomeEmailVerificationId = _welcomeEmailVerificationId;
-
-            allStekcitUsers[userId] = userToBeUpdated;
-            return true;
-        }
-        return false;
-    }
+    // function updateWelcomeEmailVerificationId(
+    //     uint256 _userId,
+    //     bool _isWelcomeEmailSent,
+    //     bytes32 _welcomeEmailVerificationId
+    // ) private returns (bool) {
+    //     return false;
+    // }
 
     // function createFunctionsError(bytes memory error) private {
     //     uint256 newFunctionsErrorId = currentFunctionsErrorId;

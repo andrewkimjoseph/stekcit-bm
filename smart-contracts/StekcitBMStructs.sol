@@ -10,6 +10,7 @@ struct StekcitUser {
     bool isCreatingUser;
     bool isBlank;
     bool isWelcomeEmailSent;
+
     bytes32 welcomeEmailVerificationId;
 }
 

@@ -18,7 +18,7 @@ import { useAccount } from "wagmi";
 import { StekcitUser } from "@/entities/stekcitUser";
 import { getUserByWalletAddress } from "@/services/getUserByWalletAddress";
 
-import { StekcitTicket } from "@/entities/stekcitTickets";
+import { StekcitTicket } from "@/entities/stekcitTicket";
 import { getAllTicketsOfUser } from "@/services/getAllTicketsOfUser";
 
 export default function AllEvents() {
@@ -88,7 +88,7 @@ export default function AllEvents() {
                 </Box>
               )}
               {allTicketsOfUser.map((ticket) => (
-                <Box>
+                <Box key={ticket.id}>
                   <Heading size="xs" textTransform="uppercase">
                     {ticket.eventId}
                   </Heading>

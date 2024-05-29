@@ -11,7 +11,7 @@ import {
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { http, WagmiProvider } from "wagmi";
-import { avalanche, avalancheFuji, celo, celoAlfajores } from "wagmi/chains";
+import { avalanche, avalancheFuji } from "wagmi/chains";
 
 import "./globals.css";
 

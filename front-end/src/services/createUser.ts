@@ -1,5 +1,5 @@
 import { createPublicClient, createWalletClient, custom, http, parseTransaction } from "viem";
-import { avalancheFuji, celoAlfajores } from "viem/chains";
+import { avalancheFuji } from "viem/chains";
 import { stekcitBMContractAddress } from "@/utils/addresses/stekcitBMContractAddress";
 import { stekcitBMContractABI } from "@/utils/abis/stekcitBMContractABI";
 
@@ -13,7 +13,7 @@ export const createUser = async (
                 transport: custom(window.ethereum),
             });
             const publicClient = createPublicClient({
-                chain: celoAlfajores,
+                chain: avalancheFuji,
                 transport: custom(window.ethereum),
             });
             const [address] = await privateClient.getAddresses();
@@ -31,14 +31,6 @@ export const createUser = async (
                 });
 
                 if (createUserTxnReceipt.status == "success") {
-                    const existingUser = await publicClient.readContract({
-                        address: stekcitBMContractAddress as `0x${string}`,
-                        abi: stekcitBMContractABI,
-                        functionName: "getUserByWalletAddress",
-                        args: [_signerAddress],
-                    });
-
-                    console.log(existingUser);
                     return true;
                 }
                 return false;

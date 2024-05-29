@@ -1,6 +1,5 @@
 "use client";
 
-import { checkIfUserExists } from "@/services/checkIfUserExists";
 import {
   Spinner,
   Text,
@@ -17,6 +16,14 @@ import {
   CardHeader,
   StackDivider,
   Spacer,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Image,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -31,15 +38,12 @@ import { getAllPublishedEvents } from "@/services/getAllPublishedEvents";
 import { StekcitEvent } from "@/entities/stekcitEvent";
 
 export default function Home() {
-  const [userExists, setUserExists] = useState(false);
   const toast = useToast();
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(true);
-
   const { address } = useAccount();
 
-  const [stekcitUser, setSteckitUser] = useState<StekcitUser | null>(null);
+  const [stekcitUser, setStekcitUser] = useState<StekcitUser | null>(null);
 
   const [numberOfTicketsOfUser, setNumberOfTicketsOfUser] = useState(0);
 
@@ -81,22 +85,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const checkIfUserExistsAndSet = async () => {
-      if (address) {
-        const doesUserExist = await checkIfUserExists(address);
-        setUserExists(doesUserExist);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    };
-
     const fetchUserByWalletAddress = async () => {
       const fetchedStekcitUser = await getUserByWalletAddress(address, {
         _walletAddress: address as `0x${string}`,
       });
 
-      setSteckitUser(fetchedStekcitUser);
+      setStekcitUser(fetchedStekcitUser);
     };
 
     const getNumberOfTicketsOfUserAndSet = async () => {
@@ -122,21 +116,13 @@ export default function Home() {
       setAllPublishedEvents(fetchedPublishedEvents);
     };
 
-    checkIfUserExistsAndSet();
     fetchUserByWalletAddress();
     getNumberOfTicketsOfUserAndSet();
     getTotalNumberOfAllEventsCreatedByUserAndSet();
     getAllPublishedEventsAndSet();
-  }, [
-    address,
-    userExists,
-    stekcitUser,
-    // numberOfTicketsOfUser,
-    // totalNumberOfAllEventsCreatedByUser,
-    // allPublishedEvents,
-  ]);
+  }, [stekcitUser]);
 
-  if (isLoading) {
+  if (stekcitUser?.isBlank) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />
@@ -145,7 +131,7 @@ export default function Home() {
   } else {
     return (
       <>
-        {userExists ? (
+        {!stekcitUser?.isBlank ? (
           <main className="flex flex-col items-center">
             {!stekcitUser?.isCreatingUser ? (
               <Box
@@ -250,16 +236,53 @@ export default function Home() {
                   )}
                   {allPublishedEvents.map((event) => (
                     <Box key={event.id}>
-                      <Heading size="xs" textTransform="uppercase">
-                        {event.title}
-                      </Heading>
+                      <Flex direction={"row"}>
+                        <Heading size="xs" textTransform="uppercase">
+                          {event.title}
+                        </Heading>
+
+                        {event.isVerified ? (
+                          <Popover placement="top">
+                            <PopoverTrigger>
+                              <Image
+                                marginLeft={2}
+                                height={"15px"}
+                                src="/verified.png"
+                                alt="Dan Abramov"
+                              />
+                            </PopoverTrigger>
+                            <PopoverContent color="black" width={"225px"}>
+                              <PopoverArrow />
+                              <PopoverCloseButton />
+                              <PopoverHeader
+                                pt={4}
+                                fontWeight="bold"
+                                border="0"
+                              >
+                                Verified event
+                              </PopoverHeader>
+                              <PopoverBody>
+                                Creator paid for this badge.
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Popover>
+                        ) : null}
+
+                        {/* <Tooltip label="This is a verified event." fontSize="md">
+                 
+                    </Tooltip> */}
+                      </Flex>
                       <Text pt="2" fontSize="sm">
                         {event.description}
                       </Text>
+
                       <Button
                         marginTop={4}
                         variant="outline"
                         colorScheme="blue"
+                        onClick={() =>
+                          router.push(`/events/${event.id}?eventId=${event.id}`)
+                        }
                       >
                         View event
                       </Button>

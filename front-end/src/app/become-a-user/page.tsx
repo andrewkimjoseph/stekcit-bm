@@ -25,8 +25,9 @@ import {
 import { createUser } from "@/services/createUser";
 import { useAccount } from "wagmi";
 import { SuiteContext } from "node:test";
-import { checkIfUserExists } from "@/services/checkIfUserExists";
 import { useRouter } from "next/navigation";
+import { getUserByWalletAddress } from "@/services/getUserByWalletAddress";
+import { StekcitUser } from "@/entities/stekcitUser";
 
 export default function BecomeAUser() {
   const router = useRouter();
@@ -39,24 +40,29 @@ export default function BecomeAUser() {
   const toast = useToast();
 
   const [isGettingStarted, setIsGettingStarted] = useState(false);
-  const [userExists, setUserExists] = useState(false);
 
   const [isCreatingUser, setIsCreatingUser] = useState(false);
+
+  const [stekcitUser, setStekcitUser] = useState<StekcitUser | null>(null);
 
   const [usernameInput, setUsernameInput] = useState("");
 
   const [emailAddressInput, setEmailAddressInput] = useState("");
 
   useEffect(() => {
-    const checkIfUserExistsAndSet = async () => {
-      if (address) {
-        const doesUserExist = await checkIfUserExists(address);
-        setUserExists(doesUserExist);
-      }
+
+    const fetchUserByWalletAddress = async () => {
+      const fetchedStekcitUser = await getUserByWalletAddress(address, {
+        _walletAddress: address as `0x${string}`,
+      });
+
+      setStekcitUser(fetchedStekcitUser);
     };
 
-    checkIfUserExistsAndSet();
-  }, [address, userExists, router]);
+    fetchUserByWalletAddress();
+ 
+
+  }, [address, stekcitUser]);
 
   const handleUsernameInputChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -159,7 +165,7 @@ export default function BecomeAUser() {
         Welcome to Stekcit BM!
       </Heading>
 
-      {userExists ? (
+      {!stekcitUser?.isBlank ? (
         <Heading
           fontWeight={"normal"}
           as="h2"
@@ -179,7 +185,7 @@ export default function BecomeAUser() {
         paddingBottom={8}
       />
 
-      {userExists ? (
+      {!stekcitUser?.isBlank ? (
         <Button
           onClick={() => router.push("/")}
           bgColor={"#EA1845"}

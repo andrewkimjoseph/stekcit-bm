@@ -1,6 +1,5 @@
 "use client";
 
-import { checkIfUserExists } from "@/services/checkIfUserExists";
 import {
   Spinner,
   Text,
@@ -37,8 +36,6 @@ import { createEvent } from "@/services/createEvent";
 import { useRouter } from "next/navigation";
 
 export default function CreateEvent() {
-  const [userExists, setUserExists] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const { address } = useAccount();
   const [stekcitUser, setSteckitUser] = useState<StekcitUser | null>(null);
   const [allEventsCreatedByUser, setAllEventsCreatedByUser] = useState<
@@ -67,21 +64,9 @@ export default function CreateEvent() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-
-
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   useEffect(() => {
-    const checkIfUserExistsAndSet = async () => {
-      if (address) {
-        const doesUserExist = await checkIfUserExists(address);
-        setUserExists(doesUserExist);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    };
-
     const fetchUserByWalletAddress = async () => {
       const fetchedStekcitUser = await getUserByWalletAddress(address, {
         _walletAddress: address as `0x${string}`,
@@ -95,10 +80,9 @@ export default function CreateEvent() {
       setAllEventsCreatedByUser(fetchedPublishedEvents);
     };
 
-    checkIfUserExistsAndSet();
     fetchUserByWalletAddress();
     getAllEventsCreatedByUserAndSet();
-  }, [address, userExists, stekcitUser, allEventsCreatedByUser]);
+  }, [address, stekcitUser, allEventsCreatedByUser]);
 
   const validateInputs = () => {
     let isValid = true;
@@ -142,7 +126,6 @@ export default function CreateEvent() {
     setErrors(newErrors);
     return isValid;
   };
-
 
   const onCloseModal = () => {
     onClose();
@@ -208,7 +191,7 @@ export default function CreateEvent() {
     ///set is confirming event to false
   };
 
-  if (isLoading) {
+  if (stekcitUser?.isBlank) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />

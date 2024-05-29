@@ -1,6 +1,5 @@
 "use client";
 
-import { checkIfUserExists } from "@/services/checkIfUserExists";
 import {
   Spinner,
   Text,
@@ -22,9 +21,6 @@ import { getAllEventsCreatedByUser } from "@/services/getAllEventsCreatedByUser"
 import { useRouter } from "next/navigation";
 
 export default function AllEvents() {
-  const [userExists, setUserExists] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(true);
 
   const { address } = useAccount();
 
@@ -37,16 +33,7 @@ export default function AllEvents() {
   >([]);
 
   useEffect(() => {
-    const checkIfUserExistsAndSet = async () => {
-      if (address) {
-        const doesUserExist = await checkIfUserExists(address);
-        setUserExists(doesUserExist);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    };
-
+  
     const fetchUserByWalletAddress = async () => {
       const fetchedStekcitUser = await getUserByWalletAddress(address, {
         _walletAddress: address as `0x${string}`,
@@ -60,12 +47,11 @@ export default function AllEvents() {
       setAllEventsCreatedByUser(fetchedPublishedEvents);
     };
 
-    checkIfUserExistsAndSet();
     fetchUserByWalletAddress();
     getAllEventsCreatedByUserAndSet();
-  }, [address, userExists, stekcitUser, allEventsCreatedByUser]);
+  }, [address, stekcitUser, allEventsCreatedByUser]);
 
-  if (isLoading) {
+  if (stekcitUser?.isBlank) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />
@@ -105,12 +91,19 @@ export default function AllEvents() {
               {allEventsCreatedByUser.map((event) => (
                 <Box key={event.id}>
                   <Heading size="xs" textTransform="uppercase">
-                    {event.title}
+                    {event.id}: {event.title}
                   </Heading>
                   <Text pt="2" fontSize="sm">
                     {event.description}
                   </Text>
-                  <Button marginTop={4} variant="outline" color="#18A092">
+                  <Button
+                    marginTop={4}
+                    variant="outline"
+                    color="#18A092"
+                    onClick={() =>
+                      router.push(`/my-events/${event.id}?eventId=${event.id}`)
+                    }
+                  >
                     View event
                   </Button>
                 </Box>

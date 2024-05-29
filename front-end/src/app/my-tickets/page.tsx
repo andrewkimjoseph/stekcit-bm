@@ -1,6 +1,5 @@
 "use client";
 
-import { checkIfUserExists } from "@/services/checkIfUserExists";
 import {
   Spinner,
   Text,
@@ -20,11 +19,10 @@ import { getUserByWalletAddress } from "@/services/getUserByWalletAddress";
 
 import { StekcitTicket } from "@/entities/stekcitTicket";
 import { getAllTicketsOfUser } from "@/services/getAllTicketsOfUser";
+import {useRouter} from "next/navigation";
 
 export default function AllEvents() {
-  const [userExists, setUserExists] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(true);
 
   const { address } = useAccount();
 
@@ -32,16 +30,9 @@ export default function AllEvents() {
 
   const [allTicketsOfUser, setAllTicketsOfUser] = useState<StekcitTicket[]>([]);
 
+  const router = useRouter();
+
   useEffect(() => {
-    const checkIfUserExistsAndSet = async () => {
-      if (address) {
-        const doesUserExist = await checkIfUserExists(address);
-        setUserExists(doesUserExist);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    };
 
     const fetchUserByWalletAddress = async () => {
       const fetchedStekcitUser = await getUserByWalletAddress(address, {
@@ -55,13 +46,11 @@ export default function AllEvents() {
       const fetchedTickets = await getAllTicketsOfUser(address);
       setAllTicketsOfUser(fetchedTickets);
     };
-
-    checkIfUserExistsAndSet();
     fetchUserByWalletAddress();
     getAllTicketsOfUserAndSet();
   }, [address, userExists, stekcitUser, allTicketsOfUser]);
 
-  if (isLoading) {
+  if (stekcitUser?.isBlank) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />
@@ -88,14 +77,23 @@ export default function AllEvents() {
                 </Box>
               )}
               {allTicketsOfUser.map((ticket) => (
-                <Box key={ticket.id}>
+                  <Box key={ticket.id}>
                   <Heading size="xs" textTransform="uppercase">
-                    {ticket.eventId}
+                    Event id: {ticket.eventId}
                   </Heading>
                   <Text pt="2" fontSize="sm">
-                    {ticket.id}
+                    Ticket Id: {ticket.id}
                   </Text>
-                  <Button marginTop={4} variant="outline" colorScheme="blue">
+                  <Button
+                    marginTop={4}
+                    variant="outline"
+                    colorScheme="blue"
+                    onClick={() =>
+                      router.push(
+                        `/events/${ticket.eventId}?eventId=${ticket.eventId}`
+                      )
+                    }
+                  >
                     View event
                   </Button>
                 </Box>

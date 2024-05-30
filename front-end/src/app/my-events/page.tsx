@@ -49,7 +49,7 @@ export default function AllEvents() {
 
     fetchUserByWalletAddress();
     getAllEventsCreatedByUserAndSet();
-  }, [stekcitUser, allEventsCreatedByUser]);
+  }, [stekcitUser, allEventsCreatedByUser, address]);
 
   if (stekcitUser?.isBlank === undefined) {
     return (

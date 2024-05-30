@@ -50,7 +50,7 @@ export default function AllAttendees() {
 
     fetchUserByWalletAddress();
     getAllEventAttendeesAndSet();
-  }, [address, stekcitUser, allEventAttendees]);
+  }, [address, stekcitUser, allEventAttendees, eventId]);
 
   if (stekcitUser?.isBlank === undefined) {
     return (

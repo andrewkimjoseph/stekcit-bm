@@ -7,7 +7,7 @@ import {
 } from "viem";
 import { avalancheFuji } from "viem/chains";
 
-export const verifyEvent = async (
+export const verifyEventAndSetVerificationRequestId = async (
     _signerAddress: `0x${string}` | undefined,
     { _eventId }: VerifyEventProps
 ): Promise<boolean> => {
@@ -31,15 +31,19 @@ export const verifyEvent = async (
                 args: [_eventId],
             });
 
-            const verifyEventTxnReceipt =
-                await publicClient.waitForTransactionReceipt({
-                    hash: verifyEventTxnHash,
-                });
+            console.log(verifyEventTxnHash);
 
-            if (verifyEventTxnReceipt.status == "success") {
-                return true;
-            }
-            return false;
+
+
+        // // verifyEventTxnReceipt =
+        // //          publicClient.watchPendingTransactions({
+                    
+        // //         });
+
+        // //     // if (verifyEventTxnReceipt. == "success") {
+        // //     //     return true;
+        // //     // }
+        //     return false;
 
         } catch (error) {
             return false;

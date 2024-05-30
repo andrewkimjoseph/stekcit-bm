@@ -120,32 +120,6 @@ export const stekcitBMContractABI: Object[] =
         {
             "inputs": [
                 {
-                    "internalType": "address",
-                    "name": "_stekcitBMOwnerAddress",
-                    "type": "address"
-                }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-        },
-        {
-            "inputs": [],
-            "name": "EmptyArgs",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "EmptySecrets",
-            "type": "error"
-        },
-        {
-            "inputs": [],
-            "name": "EmptySource",
-            "type": "error"
-        },
-        {
-            "inputs": [
-                {
                     "internalType": "bytes32",
                     "name": "requestId",
                     "type": "bytes32"
@@ -178,6 +152,32 @@ export const stekcitBMContractABI: Object[] =
             ],
             "stateMutability": "nonpayable",
             "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_stekcitBMOwnerAddress",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [],
+            "name": "EmptyArgs",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "EmptySecrets",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "EmptySource",
+            "type": "error"
         },
         {
             "inputs": [],
@@ -1359,67 +1359,6 @@ export const stekcitBMContractABI: Object[] =
                         }
                     ],
                     "internalType": "struct StekcitPayout",
-                    "name": "",
-                    "type": "tuple"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "_eventId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "address",
-                    "name": "_walletAddress",
-                    "type": "address"
-                }
-            ],
-            "name": "getTicketByEventIdAndWalletAddress",
-            "outputs": [
-                {
-                    "components": [
-                        {
-                            "internalType": "uint256",
-                            "name": "id",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "eventId",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "address",
-                            "name": "attendingUserWalletAddress",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "amountPaidInEthers",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "bool",
-                            "name": "isBlank",
-                            "type": "bool"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "verificationRequestId",
-                            "type": "uint256"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "verificationId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "internalType": "struct StekcitTicket",
                     "name": "",
                     "type": "tuple"
                 }

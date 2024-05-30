@@ -153,9 +153,9 @@ export default function Event() {
 
     fetchUserByWalletAddress();
     fetchEventById();
-  }, [address, stekcitUser]);
+  }, [address, stekcitUser, eventId]);
 
-  if (stekcitUser?.isBlank) {
+  if (stekcitUser?.isBlank === undefined) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />

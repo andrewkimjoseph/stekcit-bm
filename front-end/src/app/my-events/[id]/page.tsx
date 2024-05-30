@@ -26,7 +26,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getEventById } from "@/services/getEventById";
 import { formatUnits } from "viem";
 import { payForEventVerification } from "@/services/payForEventVerification";
-import { verifyEvent } from "@/services/verifyEvent";
+import { verifyEventAndSetVerificationRequestId } from "@/services/verifyEvent";
 import { publishEvent } from "@/services/publishEvent";
 import { processPayout } from "@/services/processPayout";
 import { getTotalAmountPaidToEventInEthers } from "@/services/getTotalAmountPaidToEventInEthers";
@@ -117,17 +117,17 @@ export default function Event() {
   };
 
   const makePaymentAndVerifyEvent = async () => {
-    if (stekcitEvent?.isVerified === true) {
-      toast({
-        description: "Event is already verified",
-        status: "info",
-        duration: 9000,
-        isClosable: true,
-        position: "top",
-      });
+    // if (stekcitEvent?.isVerified === true) {
+    //   toast({
+    //     description: "Event is already verified",
+    //     status: "info",
+    //     duration: 9000,
+    //     isClosable: true,
+    //     position: "top",
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
     setIsVerifying(true);
 
     const amountToBePaid = (stekcitEvent?.amountInEthers ?? 0) / 10;
@@ -144,12 +144,12 @@ export default function Event() {
       return;
     }
 
-    const verificationPaymentIsMade = await payForEventVerification(address, {
-      _amount: amountToBePaid,
-    });
+    // const verificationPaymentIsMade = await payForEventVerification(address, {
+    //   _amount: amountToBePaid,
+    // });
 
-    if (verificationPaymentIsMade) {
-      const verificationIsMade = await verifyEvent(address, {
+    if (true) {
+      const verificationIsMade = await verifyEventAndSetVerificationRequestId(address, {
         _eventId: eventId,
       });
 
@@ -158,6 +158,15 @@ export default function Event() {
         toast({
           description: "Event successfully verified.",
           status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+      } else {
+        setIsVerifying(false);
+        toast({
+          description: "Event was not verified.",
+          status: "error",
           duration: 9000,
           isClosable: true,
           position: "top",
@@ -254,9 +263,9 @@ export default function Event() {
 
     fetchUserByWalletAddress();
     fetchEventById();
-  }, [address, stekcitUser]);
+  }, [address, stekcitUser, eventId]);
 
-  if (stekcitUser?.isBlank) {
+  if (stekcitUser?.isBlank === undefined) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />
@@ -305,7 +314,7 @@ export default function Event() {
                   {stekcitEvent?.isVerified.toString()}
                 </Text>
 
-                {!stekcitEvent?.isVerified ? (
+                {stekcitEvent?.isVerified ? (
                   <Button
                     bgColor={"#EA1845"}
                     onClick={makePaymentAndVerifyEvent}

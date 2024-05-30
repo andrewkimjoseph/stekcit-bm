@@ -51,7 +51,7 @@ export default function AllEvents() {
     getAllEventsCreatedByUserAndSet();
   }, [address, stekcitUser, allEventsCreatedByUser]);
 
-  if (stekcitUser?.isBlank) {
+  if (stekcitUser?.isBlank === undefined) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />

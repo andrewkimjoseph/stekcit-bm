@@ -48,9 +48,9 @@ export default function AllEvents() {
     };
     fetchUserByWalletAddress();
     getAllTicketsOfUserAndSet();
-  }, [address, userExists, stekcitUser, allTicketsOfUser]);
+  }, [address, stekcitUser, allTicketsOfUser]);
 
-  if (stekcitUser?.isBlank) {
+  if (stekcitUser?.isBlank === undefined) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />

@@ -191,7 +191,7 @@ export default function CreateEvent() {
     ///set is confirming event to false
   };
 
-  if (stekcitUser?.isBlank) {
+  if (stekcitUser?.isBlank === undefined) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />

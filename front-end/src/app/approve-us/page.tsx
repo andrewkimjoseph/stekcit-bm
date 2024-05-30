@@ -75,7 +75,7 @@ export default function ApproveUs() {
     fetchUserByWalletAddress();
   }, [address, stekcitUser]);
 
-  if (stekcitUser?.isBlank) {
+  if (stekcitUser?.isBlank === undefined) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />

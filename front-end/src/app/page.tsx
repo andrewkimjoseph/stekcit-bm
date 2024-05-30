@@ -120,9 +120,17 @@ export default function Home() {
     getNumberOfTicketsOfUserAndSet();
     getTotalNumberOfAllEventsCreatedByUserAndSet();
     getAllPublishedEventsAndSet();
-  }, [stekcitUser]);
+  }, [address, stekcitUser]);
 
-  if (stekcitUser?.isBlank) {
+  if (address === undefined) {
+    return (
+      <main className="flex h-screen items-center justify-center">
+        <Text>Connect your wallet.</Text>
+      </main>
+    );
+  } 
+
+  if (stekcitUser?.isBlank === undefined) {
     return (
       <main className="flex h-screen items-center justify-center">
         <Spinner />
@@ -131,7 +139,7 @@ export default function Home() {
   } else {
     return (
       <>
-        {!stekcitUser?.isBlank ? (
+        {stekcitUser?.walletAddress === address ? (
           <main className="flex flex-col items-center">
             {!stekcitUser?.isCreatingUser ? (
               <Box

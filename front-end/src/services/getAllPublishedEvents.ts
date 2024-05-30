@@ -37,7 +37,9 @@ export const getAllPublishedEvents = async (
           isVerified: eventToBeParsed["isVerified"],
           verificationAmountInEthers: Number(eventToBeParsed["verificationAmountInEthers"]),
           isEnded: eventToBeParsed["isEnded"],
-          isPaidOut: eventToBeParsed["isPaidOut"]
+          isPaidOut: eventToBeParsed["isPaidOut"],
+          verificationId: Number(eventToBeParsed["verificationId"]),
+          verificationRequestId: Number(eventToBeParsed["verificationRequestId"]),
         }
         allPublishedEvents.push(publishedStekcitEvent);
       }

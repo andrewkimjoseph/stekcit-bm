@@ -30,7 +30,9 @@ export const getAllTicketsOfUser = async (
           attendingUserWalletAddress: ticketToBeParsed["attendingUserWalletAddress"],
           amountPaidInEthers: Number(ticketToBeParsed["amountPaidInEthers"]),
           isBlank: ticketToBeParsed["isBlank"],
-          isPublished: ticketToBeParsed["isPublished"]
+          isPublished: ticketToBeParsed["isPublished"],
+          verificationRequestId: Number(ticketToBeParsed["verificationRequestId"]),
+          verificationId: Number(ticketToBeParsed["verificationId"])
         }
 
         allTicketsOfUser.push(createdTicket);

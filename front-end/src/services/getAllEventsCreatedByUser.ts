@@ -38,7 +38,9 @@ export const getAllEventsCreatedByUser = async (
           isVerified: eventToBeParsed["isVerified"],
           verificationAmountInEthers: Number(eventToBeParsed["verificationAmountInEthers"]),
           isEnded: eventToBeParsed["isEnded"],
-          isPaidOut: eventToBeParsed["isPaidOut"]
+          isPaidOut: eventToBeParsed["isPaidOut"],
+          verificationRequestId:  Number(eventToBeParsed["verificationRequestId"]),
+          verificationId:Number(eventToBeParsed["verificationId"])
         }
         allPublishedEvents.push(publishedStekcitEvent);
       }

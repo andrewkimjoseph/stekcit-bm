@@ -23,7 +23,7 @@ export const buyTicket = async (
         });
         const [address] = await privateClient.getAddresses();
         try {
-            const publishEventTxnHash = await privateClient.writeContract({
+            const buyTicketTxnHash = await privateClient.writeContract({
                 account: address,
                 address: stekcitBMContractAddress,
                 abi: stekcitBMContractABI,
@@ -31,12 +31,14 @@ export const buyTicket = async (
                 args: [_eventId],
             });
 
-            const publishEventTxnReceipt =
+            const buyTicketTxnReceipt =
                 await publicClient.waitForTransactionReceipt({
-                    hash: publishEventTxnHash,
+                    hash: buyTicketTxnHash,
                 });
 
-            if (publishEventTxnReceipt.status == "success") {
+            if (buyTicketTxnReceipt.status == "success") {
+
+                
                 return true;
             }
             return false;

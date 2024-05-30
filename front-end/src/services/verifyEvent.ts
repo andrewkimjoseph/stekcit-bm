@@ -35,15 +35,18 @@ export const verifyEventAndSetVerificationRequestId = async (
 
 
 
-        // // verifyEventTxnReceipt =
-        // //          publicClient.watchPendingTransactions({
+        const verifyEventTxnReceipt = await
+                 publicClient.waitForTransactionReceipt({
+                    hash: verifyEventTxnHash
                     
-        // //         });
+                });
 
-        // //     // if (verifyEventTxnReceipt. == "success") {
-        // //     //     return true;
-        // //     // }
-        //     return false;
+                console.log(verifyEventTxnReceipt);
+
+            if (verifyEventTxnReceipt.status == "success") {
+                return true;
+            }
+            return false;
 
         } catch (error) {
             return false;

@@ -37,7 +37,9 @@ export const getEventById = async (
           isVerified: fetchedStekcitEvent["isVerified"],
           verificationAmountInEthers: Number(fetchedStekcitEvent["verificationAmountInEthers"]),
           isEnded: fetchedStekcitEvent["isEnded"],
-          isPaidOut: fetchedStekcitEvent["isPaidOut"]
+          isPaidOut: fetchedStekcitEvent["isPaidOut"],
+          verificationId: Number(fetchedStekcitEvent["verificationId"]),
+          verificationRequestId:  Number(fetchedStekcitEvent["verificationRequestId"])
       }
 
       return stekcitEvent;

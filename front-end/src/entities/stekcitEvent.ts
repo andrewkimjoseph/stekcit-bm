@@ -14,4 +14,6 @@ export type StekcitEvent = {
      verificationAmountInEthers: number;
      isEnded: boolean;
      isPaidOut: boolean;
+     verificationRequestId: number;
+     verificationId: number;
   };

@@ -5,4 +5,6 @@ export type StekcitTicket = {
     amountPaidInEthers: number;
     isBlank: boolean,
     isPublished: boolean,
+    verificationRequestId: number;
+    verificationId: number;
 };

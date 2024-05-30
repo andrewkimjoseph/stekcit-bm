@@ -15,6 +15,7 @@ import {
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { StekcitBMLogo } from "./logo";
+import NavLink from "./navLinks";
 
 const Links = [
   {
@@ -22,36 +23,23 @@ const Links = [
     "href": "/"
   },
   {
-    "title": "My Event",
+    "title": "My Events",
     "href": "/my-events"
   },
   {
-    "title": "My Event",
+    "title": "My Tickets",
     "href": "/my-tickets"
   },
+  // {
+  //   "title": "Approve Us",
+  //   "href": "/approve-us"
+  // },
   {
-    "title": "FAQ",
-    "href": "/faq"
-  }
-
+    "title": "FAQs",
+    "href": "/faqs"
+  },
 ];
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    textColor={"white"}
-    _hover={{
-      textColor: "black",
-      textDecoration: "none",
-      bg: "white",
-    }}
-    href={"/"}
-  >
-    {children}
-  </Link>
-);
 
 export default function StekcitNavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -69,14 +57,12 @@ export default function StekcitNavBar() {
       <Box
         bg={useColorModeValue("#18A092", "#18A092")}
         px={4}
-        className="sticky top-0"
+        position="sticky"
+        top="0"
+        zIndex="1000"
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
-            // _hover={{
-            //   bgColor: "#FFD62C",
-            //   color: "black",
-            // }}
             bgColor={"white"}
             color={"black"}
             size={"md"}
@@ -93,7 +79,7 @@ export default function StekcitNavBar() {
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink key={link.href}>{link.title}</NavLink>
+                <NavLink href={link.href} key={link.href}>{link.title}</NavLink>
               ))}
             </HStack>
           </HStack>
@@ -154,7 +140,7 @@ export default function StekcitNavBar() {
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
-                <NavLink  key={link.href}>{link.title}</NavLink>
+                <NavLink href={link.href} key={link.href}>{link.title}</NavLink>
               ))}
             </Stack>
           </Box>

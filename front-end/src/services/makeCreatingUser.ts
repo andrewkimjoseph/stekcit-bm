@@ -1,10 +1,10 @@
+import { stekcitBMContractABI } from "@/utils/abis/stekcitBMContractABI";
+import { stekcitBMContractAddress } from "@/utils/addresses/stekcitBMContractAddress";
 import { createPublicClient, createWalletClient, custom, http, parseTransaction } from "viem";
 import { avalancheFuji } from "viem/chains";
-import { stekcitBMContractAddress } from "@/utils/addresses/stekcitBMContractAddress";
-import { stekcitBMContractABI } from "@/utils/abis/stekcitBMContractABI";
 
-export const createUser = async (
-    _signerAddress: `0x${string}` | undefined, { _username, _emailAddress }: CreateUserProps
+export const makeCreatingUser = async (
+    _signerAddress: `0x${string}` | undefined,
 ): Promise<boolean> => {
     if (window.ethereum) {
         try {
@@ -20,10 +20,9 @@ export const createUser = async (
             try {
                 const createUserTxnHash = await privateClient.writeContract({
                     account: address,
-                    address: stekcitBMContractAddress as `0x${string}`,
+                    address: stekcitBMContractAddress,
                     abi: stekcitBMContractABI,
-                    functionName: "createUser",
-                    args: [_username, _emailAddress],
+                    functionName: "makeCreatingUser",
                 });
 
                 const createUserTxnReceipt = await publicClient.waitForTransactionReceipt({
@@ -31,6 +30,12 @@ export const createUser = async (
                 });
 
                 if (createUserTxnReceipt.status == "success") {
+                    await publicClient.readContract({
+                        address: stekcitBMContractAddress,
+                        abi: stekcitBMContractABI,
+                        functionName: "getUserByWalletAddress",
+                        args: [_signerAddress],
+                    });
                     return true;
                 }
                 return false;
@@ -46,8 +51,3 @@ export const createUser = async (
 };
 
 
-
-export type CreateUserProps = {
-    _username: string;
-    _emailAddress: string;
-};

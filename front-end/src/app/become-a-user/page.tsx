@@ -20,12 +20,14 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  useToast,
 } from "@chakra-ui/react";
 import { createUser } from "@/services/createUser";
 import { useAccount } from "wagmi";
 import { SuiteContext } from "node:test";
-import { checkIfUserExists } from "@/services/checkIfUserExists";
 import { useRouter } from "next/navigation";
+import { getUserByWalletAddress } from "@/services/getUserByWalletAddress";
+import { StekcitUser } from "@/entities/stekcitUser";
 
 export default function BecomeAUser() {
   const router = useRouter();
@@ -35,33 +37,29 @@ export default function BecomeAUser() {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
 
+  const toast = useToast();
+
   const [isGettingStarted, setIsGettingStarted] = useState(false);
-  const [userExists, setUserExists] = useState(false);
 
   const [isCreatingUser, setIsCreatingUser] = useState(false);
 
+  const [stekcitUser, setStekcitUser] = useState<StekcitUser | null>(null);
+
   const [usernameInput, setUsernameInput] = useState("");
-
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
-
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-
-  const [successMessage, setSuccessMessage] = useState("");
 
   const [emailAddressInput, setEmailAddressInput] = useState("");
 
   useEffect(() => {
-    const checkIfUserExistsAndSet = async () => {
-      if (address) {
-        const doesUserExist = await checkIfUserExists(address);
-        setUserExists(doesUserExist);
-      }
+    const fetchUserByWalletAddress = async () => {
+      const fetchedStekcitUser = await getUserByWalletAddress(address, {
+        _walletAddress: address as `0x${string}`,
+      });
+
+      setStekcitUser(fetchedStekcitUser);
     };
 
-    checkIfUserExistsAndSet();
-  }, [address, userExists, router]);
+    fetchUserByWalletAddress();
+  }, [address, stekcitUser]);
 
   const handleUsernameInputChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -80,6 +78,38 @@ export default function BecomeAUser() {
     setIsGettingStarted(true);
     return;
   };
+  const showErrorToast = (description: string) => {
+    setIsGettingStarted(true);
+    return toast({
+      description: description,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+      position: "top",
+    });
+  };
+
+  const showInfoToast = (description: string) => {
+    setIsGettingStarted(true);
+    return toast({
+      description: description,
+      status: "info",
+      duration: 9000,
+      isClosable: true,
+      position: "top",
+    });
+  };
+
+  const showSuccessToast = (description: string) => {
+    setIsGettingStarted(true);
+    return toast({
+      description: description,
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+      position: "top",
+    });
+  };
 
   const validateInput = () => {
     const isUsernameValid = usernameInput.length > 6;
@@ -88,21 +118,21 @@ export default function BecomeAUser() {
     if (isUsernameValid && isEmailValid) {
       return true;
     } else if (!isUsernameValid && !isEmailValid) {
-      setErrorMessage(
-        "Username must be more than 6 characters and email must be valid."
+      showErrorToast(
+        "Username must be more than 6 characters and email must be valid"
       );
-      setShowErrorAlert(true);
     } else if (!isUsernameValid) {
-      setErrorMessage("Username must be more than 6 characters.");
-      setShowErrorAlert(true);
+      showErrorToast("Username must be more than 6 characters");
     } else if (!isEmailValid) {
-      setErrorMessage("Email must be valid.");
-      setShowErrorAlert(true);
+      showErrorToast("Email must be valid");
     }
-    setTimeout(() => {
-      setShowErrorAlert(false);
-    }, 3000);
     return false;
+  };
+
+  const onModalDismissed = () => {
+    onClose();
+    setIsGettingStarted(false);
+    return;
   };
 
   const onClickCreateUser = async () => {
@@ -110,37 +140,28 @@ export default function BecomeAUser() {
 
     if (inputIsValidated) {
       setIsCreatingUser(true);
-
       const isUserCreated = await createUser(address, {
         _username: usernameInput,
         _emailAddress: emailAddressInput,
       });
 
       if (isUserCreated) {
-        setIsCreatingUser(false);
-        onModalDismissed();
-        setSuccessMessage("User created successfully");
-        setShowSuccessAlert(true);
-        setTimeout(() => {
-          setShowSuccessAlert(false);
-        }, 3000);
+          showSuccessToast(
+            "User created successfully, and you welcome email is in your inbox."
+          );
+          setUsernameInput("");
+          setEmailAddressInput("");
+          onModalDismissed();
+        
       } else {
-        setIsCreatingUser(false);
+        showErrorToast("User creation failed");
+        setUsernameInput("");
+        setEmailAddressInput("");
         onModalDismissed();
-        setErrorMessage("User creation failed");
-        setShowErrorAlert(true);
-        setTimeout(() => {
-          setShowErrorAlert(false);
-        }, 3000);
+        showErrorToast("User creation failed");
       }
     }
 
-    return;
-  };
-
-  const onModalDismissed = () => {
-    onClose();
-    setIsGettingStarted(false);
     return;
   };
 
@@ -156,7 +177,7 @@ export default function BecomeAUser() {
         Welcome to Stekcit BM!
       </Heading>
 
-      {userExists ? (
+      {!stekcitUser?.isBlank ? (
         <Heading
           fontWeight={"normal"}
           as="h2"
@@ -176,7 +197,7 @@ export default function BecomeAUser() {
         paddingBottom={8}
       />
 
-      {userExists ? (
+      {!stekcitUser?.isBlank ? (
         <Button
           onClick={() => router.push("/")}
           bgColor={"#EA1845"}
@@ -209,6 +230,8 @@ export default function BecomeAUser() {
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onModalDismissed}
+        isCentered
+        closeOnOverlayClick={false}
       >
         <ModalOverlay />
         <ModalContent>
@@ -254,20 +277,6 @@ export default function BecomeAUser() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-      {showErrorAlert ? (
-        <Alert status="error">
-          <AlertIcon />
-          <AlertDescription>{errorMessage}</AlertDescription>
-        </Alert>
-      ) : null}
-
-      {showSuccessAlert ? (
-        <Alert status="success">
-          <AlertIcon />
-          <AlertDescription>{successMessage}</AlertDescription>
-        </Alert>
-      ) : null}
     </main>
   );
 }

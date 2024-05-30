@@ -534,28 +534,28 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return false;
     }
 
-    function getTicketByEventIdAndWalletAddress(
-        uint256 _eventId,
-        address _walletAddress
-    ) public view returns (StekcitTicket memory) {
-        for (
-            uint256 ticketId = 0;
-            ticketId < allStekcitTickets.length;
-            ticketId++
-        ) {
-            StekcitTicket memory currentTicket = allStekcitTickets[ticketId];
-            if (
-                currentTicket.eventId == _eventId &&
-                currentTicket.attendingUserWalletAddress == _walletAddress
-            ) {
-                return currentTicket;
-            }
-        }
+    // function getTicketByEventIdAndWalletAddress(
+    //     uint256 _eventId,
+    //     address _walletAddress
+    // ) public view returns (StekcitTicket memory) {
+    //     for (
+    //         uint256 ticketId = 0;
+    //         ticketId < allStekcitTickets.length;
+    //         ticketId++
+    //     ) {
+    //         StekcitTicket memory currentTicket = allStekcitTickets[ticketId];
+    //         if (
+    //             currentTicket.eventId == _eventId &&
+    //             currentTicket.attendingUserWalletAddress == _walletAddress
+    //         ) {
+    //             return currentTicket;
+    //         }
+    //     }
 
-        StekcitTicket memory blankTicket;
-        blankTicket.isBlank = true;
-        return blankTicket;
-    }
+    //     StekcitTicket memory blankTicket;
+    //     blankTicket.isBlank = true;
+    //     return blankTicket;
+    // }
 
     function setVerificationRequestIdForTicket(
         uint256 _ticketId,

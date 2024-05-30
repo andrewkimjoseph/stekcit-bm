@@ -943,67 +943,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_eventId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "_walletAddress",
-						"type": "address"
-					}
-				],
-				"name": "getTicketByEventIdAndWalletAddress",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "uint256",
-								"name": "id",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "eventId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "address",
-								"name": "attendingUserWalletAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amountPaidInEthers",
-								"type": "uint256"
-							},
-							{
-								"internalType": "bool",
-								"name": "isBlank",
-								"type": "bool"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationRequestId",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "verificationId",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct StekcitTicket",
-						"name": "",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
 						"name": "_verificationRequestId",
 						"type": "uint256"
 					}
@@ -1815,11 +1754,11 @@
 			]
 		},
 		"smart-contracts/StekcitBM.sol": {
-			"keccak256": "0xf7bd795c3c46bb05167b004f8e89bd09f5a1b41f1d6084e3b35f30b27a050492",
+			"keccak256": "0xd89711033cb5b77cfde29d585be38a0386ae46adaba1c69cf09e49c37006ef5e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a49d0531ccbac0f544411f5dc13790887ab1787c8a8bc8126694fc85a4272fc7",
-				"dweb:/ipfs/QmZPVhCnh6eqx1BbGVwfu4suQFuUBh7ZQchyWmkKweMtyt"
+				"bzz-raw://aa4dd5d9bdcd6ea2946a13ab560f59f5a71c012ebdf03ec834bca9d7f6bf6876",
+				"dweb:/ipfs/QmbWmojPQLoyS1UkaEKWjggYQLwBzGRxCRWgxXse6UDRCC"
 			]
 		},
 		"smart-contracts/StekcitBMInterfaces.sol": {

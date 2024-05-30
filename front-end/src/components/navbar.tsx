@@ -30,12 +30,12 @@ const Links = [
     "title": "My Tickets",
     "href": "/my-tickets"
   },
+  // {
+  //   "title": "Approve Us",
+  //   "href": "/approve-us"
+  // },
   {
-    "title": "Approve Us",
-    "href": "/approve-us"
-  },
-  {
-    "title": "FAQ",
+    "title": "FAQs",
     "href": "/faqs"
   },
 ];

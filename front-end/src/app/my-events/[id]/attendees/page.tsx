@@ -16,24 +16,25 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { StekcitUser } from "@/entities/stekcitUser";
 import { getUserByWalletAddress } from "@/services/getUserByWalletAddress";
-import { StekcitEvent } from "@/entities/stekcitEvent";
-import { getAllEventsCreatedByUser } from "@/services/getAllEventsCreatedByUser";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { getEventAttendees } from "@/services/getEventAttendees";
 
-export default function AllEvents() {
+
+export default function AllAttendees() {
 
   const { address } = useAccount();
 
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const eventId = Number(searchParams.get("eventId"));
 
   const [stekcitUser, setSteckitUser] = useState<StekcitUser | null>(null);
 
-  const [allEventsCreatedByUser, setAllEventsCreatedByUser] = useState<
-    StekcitEvent[]
+  const [allEventAttendees, setAllEventAttendees] = useState<
+    StekcitUser[]
   >([]);
 
   useEffect(() => {
-  
+
     const fetchUserByWalletAddress = async () => {
       const fetchedStekcitUser = await getUserByWalletAddress(address, {
         _walletAddress: address as `0x${string}`,
@@ -42,14 +43,14 @@ export default function AllEvents() {
       setSteckitUser(fetchedStekcitUser);
     };
 
-    const getAllEventsCreatedByUserAndSet = async () => {
-      const fetchedPublishedEvents = await getAllEventsCreatedByUser(address);
-      setAllEventsCreatedByUser(fetchedPublishedEvents);
+    const getAllEventAttendeesAndSet = async () => {
+      const fetchedEventAttendees = await getEventAttendees(address, {_eventId: eventId});
+      setAllEventAttendees(fetchedEventAttendees);
     };
 
     fetchUserByWalletAddress();
-    getAllEventsCreatedByUserAndSet();
-  }, [stekcitUser, allEventsCreatedByUser]);
+    getAllEventAttendeesAndSet();
+  }, [address, stekcitUser, allEventAttendees]);
 
   if (stekcitUser?.isBlank === undefined) {
     return (
@@ -60,43 +61,30 @@ export default function AllEvents() {
   } else {
     return (
       <main className="flex flex-col items-center">
-        <Heading as="h4" size="sm" paddingBottom={4} paddingTop={4}>
-          Welcome to your events!
-        </Heading>
-        <Button
-          bgColor={"#EA1845"}
-          textColor={"white"}
-          onClick={() => router.push("/create-event")}
-          _hover={{
-            bgColor: "#6600D5",
-            //   color: "black",
-          }}
-        >
-          Create event
-        </Button>
+   
         <Card marginTop={8} direction={"column"}>
           <CardHeader>
-            <Heading size="md">All Events You Created</Heading>
+            <Heading size="md">All Events Attendees</Heading>
           </CardHeader>
 
           <CardBody>
             <Stack divider={<StackDivider />} spacing="4">
-              {allEventsCreatedByUser.length === 0 && (
+              {allEventAttendees.length === 0 && (
                 <Box>
                   <Text pt="2" fontSize="sm">
                     ...will show here
                   </Text>
                 </Box>
               )}
-              {allEventsCreatedByUser.map((event) => (
-                <Box key={event.id}>
+              {allEventAttendees.map((user) => (
+                <Box key={user.id}>
                   <Heading size="xs" textTransform="uppercase">
-                    {event.id}: {event.title}
+                  {user.id}: {user.username}
                   </Heading>
                   <Text pt="2" fontSize="sm">
-                    {event.description}
+                    {user.emailAddress}
                   </Text>
-                  <Button
+                  {/* <Button
                     marginTop={4}
                     variant="outline"
                     color="#18A092"
@@ -105,7 +93,7 @@ export default function AllEvents() {
                     }
                   >
                     View event
-                  </Button>
+                  </Button> */}
                 </Box>
               ))}
             </Stack>

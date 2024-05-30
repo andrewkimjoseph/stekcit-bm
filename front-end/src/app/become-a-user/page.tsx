@@ -50,7 +50,6 @@ export default function BecomeAUser() {
   const [emailAddressInput, setEmailAddressInput] = useState("");
 
   useEffect(() => {
-
     const fetchUserByWalletAddress = async () => {
       const fetchedStekcitUser = await getUserByWalletAddress(address, {
         _walletAddress: address as `0x${string}`,
@@ -60,8 +59,6 @@ export default function BecomeAUser() {
     };
 
     fetchUserByWalletAddress();
- 
-
   }, [address, stekcitUser]);
 
   const handleUsernameInputChange = (e: {
@@ -88,7 +85,18 @@ export default function BecomeAUser() {
       status: "error",
       duration: 9000,
       isClosable: true,
-      position:"top"
+      position: "top",
+    });
+  };
+
+  const showInfoToast = (description: string) => {
+    setIsGettingStarted(true);
+    return toast({
+      description: description,
+      status: "info",
+      duration: 9000,
+      isClosable: true,
+      position: "top",
     });
   };
 
@@ -99,7 +107,7 @@ export default function BecomeAUser() {
       status: "success",
       duration: 9000,
       isClosable: true,
-      position:"top"
+      position: "top",
     });
   };
 
@@ -110,7 +118,9 @@ export default function BecomeAUser() {
     if (isUsernameValid && isEmailValid) {
       return true;
     } else if (!isUsernameValid && !isEmailValid) {
-      showErrorToast("Username must be more than 6 characters and email must be valid");
+      showErrorToast(
+        "Username must be more than 6 characters and email must be valid"
+      );
     } else if (!isUsernameValid) {
       showErrorToast("Username must be more than 6 characters");
     } else if (!isEmailValid) {
@@ -136,10 +146,13 @@ export default function BecomeAUser() {
       });
 
       if (isUserCreated) {
-        showSuccessToast("User created successfully");
-        setUsernameInput("");
-        setEmailAddressInput("");
-        onModalDismissed();
+          showSuccessToast(
+            "User created successfully, and you welcome email is in your inbox."
+          );
+          setUsernameInput("");
+          setEmailAddressInput("");
+          onModalDismissed();
+        
       } else {
         showErrorToast("User creation failed");
         setUsernameInput("");
@@ -151,7 +164,6 @@ export default function BecomeAUser() {
 
     return;
   };
-
 
   return (
     <main className="flex h-screen flex-col items-center">
@@ -258,7 +270,6 @@ export default function BecomeAUser() {
                 bgColor: "#6600D5",
                 //   color: "black",
               }}
-              
             >
               Create user
             </Button>

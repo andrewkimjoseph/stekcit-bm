@@ -132,7 +132,7 @@ export default function Event() {
   };
 
   const parsedAmount = (amount: number) => {
-    return Number(formatUnits(BigInt(amount ?? 0), 18));
+    return Number(formatUnits(BigInt(amount ?? 0), 6));
   };
   useEffect(() => {
 
@@ -185,7 +185,7 @@ export default function Event() {
             }}
             marginRight={4}
           >
-            Buy ticket for {parsedAmount(stekcitEvent?.amountInEthers!)} cUSD
+            Buy ticket for {parsedAmount(stekcitEvent?.amountInEthers!)} USDC
           </Button>
         </Card>
 

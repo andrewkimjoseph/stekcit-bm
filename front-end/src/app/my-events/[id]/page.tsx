@@ -30,6 +30,7 @@ import { verifyEventAndSetVerificationRequestId } from "@/services/verifyEvent";
 import { publishEvent } from "@/services/publishEvent";
 import { processPayout } from "@/services/processPayout";
 import { getTotalAmountPaidToEventInEthers } from "@/services/getTotalAmountPaidToEventInEthers";
+import { getNumberOfTicketsOfEvent } from "@/services/getNumberOfTicketsOfEvent";
 
 export default function Event() {
 
@@ -38,6 +39,9 @@ export default function Event() {
   const [isPublishing, setIsPublishing] = useState(false);
 
   const [isPayingOut, setIsPayingOut] = useState(false);
+
+  const [numberOfTicketsOfEvent, setNumberOfTicketsOfEvent] = useState(0);
+
 
   const { address } = useAccount();
 
@@ -144,11 +148,11 @@ export default function Event() {
       return;
     }
 
-    // const verificationPaymentIsMade = await payForEventVerification(address, {
-    //   _amount: amountToBePaid,
-    // });
+    const verificationPaymentIsMade = await payForEventVerification(address, {
+      _amount: amountToBePaid,
+    });
 
-    if (true) {
+    if (verificationPaymentIsMade) {
       const verificationIsMade = await verifyEventAndSetVerificationRequestId(address, {
         _eventId: eventId,
       });
@@ -261,6 +265,16 @@ export default function Event() {
       setStekcitEvent(fetchedEvent);
     };
 
+    const getNumberOfTicketsOfEventAndSet = async () => {
+      const fetchedNumberOfTicketsOfEvent = await getNumberOfTicketsOfEvent(
+        address,
+        { _eventId: eventId }
+      );
+      setNumberOfTicketsOfEvent(fetchedNumberOfTicketsOfEvent);
+    };
+
+    getNumberOfTicketsOfEventAndSet();
+
     fetchUserByWalletAddress();
     fetchEventById();
   }, [address, stekcitUser, eventId]);
@@ -278,6 +292,7 @@ export default function Event() {
           Viewing event 0
         </Heading> */}
         <Card marginY={4} direction={"row"} alignItems={"center"}>
+          
           <CardHeader>
             <Heading size="md">Event at id: {stekcitEvent?.id}</Heading>
           </CardHeader>
@@ -299,6 +314,29 @@ export default function Event() {
         </Card>
 
         <Stack spacing={2}>
+        <Card>
+            <CardBody>
+              <InputGroup className="flex flex-row items-center justify-between">
+                <InputLeftAddon>Attendees: </InputLeftAddon>
+                <Text marginX={4}>{numberOfTicketsOfEvent}</Text>
+
+                <Button
+                  bgColor={"#18A092"}
+                  onClick={() =>
+                    router.push(
+                      `/my-events/${stekcitEvent?.id}/attendees?eventId=${stekcitEvent?.id}`
+                    )
+                  }
+                  textColor={"white"}
+                  _hover={{
+                    bgColor: "#6600D5",
+                  }}
+                >
+                  View attendees
+                </Button>
+              </InputGroup>
+            </CardBody>
+          </Card>
           <Card>
             <CardBody>
               <InputGroup
@@ -314,7 +352,7 @@ export default function Event() {
                   {stekcitEvent?.isVerified.toString()}
                 </Text>
 
-                {stekcitEvent?.isVerified ? (
+                {!stekcitEvent?.isVerified ? (
                   <Button
                     bgColor={"#EA1845"}
                     onClick={makePaymentAndVerifyEvent}
@@ -428,11 +466,24 @@ export default function Event() {
                 <InputLeftAddon>Amount</InputLeftAddon>
                 <Text marginLeft={4}>
                   {`${parsedAmount(stekcitEvent?.amountInEthers!)} USDC`}
-                  USDC
                 </Text>
               </InputGroup>
             </CardBody>
           </Card>
+
+
+          <Card>
+            <CardBody>
+              <InputGroup alignItems={"center"}>
+                <InputLeftAddon>VRF ID</InputLeftAddon>
+                <Text marginLeft={4}>
+                  {stekcitEvent?.verificationId}
+                </Text>
+              </InputGroup>
+            </CardBody>
+          </Card>
+
+
         </Stack>
       </main>
     );

@@ -24,6 +24,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Image,
+  Badge,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -50,6 +51,8 @@ export default function Home() {
   const [allPublishedEvents, setAllPublishedEvents] = useState<StekcitEvent[]>(
     []
   );
+
+  const [source, setSource] = useState<string | null>(null);
 
   const [
     totalNumberOfAllEventsCreatedByUser,
@@ -109,6 +112,7 @@ export default function Home() {
       setTotalNumberOfAllEventsCreatedByUser(
         fetchedTotalNumberOfAllEventsCreatedByUser
       );
+      // console.log(await readSourceJsFile());
     };
 
     const getAllPublishedEventsAndSet = async () => {
@@ -120,7 +124,22 @@ export default function Home() {
     getNumberOfTicketsOfUserAndSet();
     getTotalNumberOfAllEventsCreatedByUserAndSet();
     getAllPublishedEventsAndSet();
+    // fetchFileContent();
   }, [address, stekcitUser]);
+
+  const fetchSourceData = async (): Promise<string> => {
+    let sourceString: string = '';
+    try {
+      const response = await fetch("/api/loadSource");
+      const data = await response.text();
+      console.log(data);
+
+
+      return data;
+    } catch (error) {
+      return sourceString;
+    }
+  };
 
   if (address === undefined) {
     return (
@@ -128,7 +147,7 @@ export default function Home() {
         <Text>Connect your wallet.</Text>
       </main>
     );
-  } 
+  }
 
   if (stekcitUser?.isBlank === undefined) {
     return (
@@ -259,7 +278,7 @@ export default function Home() {
                                 alt="Dan Abramov"
                               />
                             </PopoverTrigger>
-                            <PopoverContent color="black" width={"225px"}>
+                            <PopoverContent color="black" width={"200px"}>
                               <PopoverArrow />
                               <PopoverCloseButton />
                               <PopoverHeader
@@ -270,7 +289,8 @@ export default function Home() {
                                 Verified event
                               </PopoverHeader>
                               <PopoverBody>
-                                Creator paid for this badge.
+                                Creator paid for this.
+                                <Badge>{event.verificationId}</Badge>
                               </PopoverBody>
                             </PopoverContent>
                           </Popover>

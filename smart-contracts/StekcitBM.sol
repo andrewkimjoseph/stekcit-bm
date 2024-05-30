@@ -2,16 +2,19 @@
 
 pragma solidity 0.8.19;
 
-import {VRFV2WrapperConsumerBase} from "@chainlink/contracts@1.1.0/src/v0.8/vrf/VRFV2WrapperConsumerBase.sol";
 import {LinkTokenInterface} from "@chainlink/contracts@1.1.0/src/v0.8/shared/interfaces/LinkTokenInterface.sol";
+
 import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol";
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
+
+import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
+import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 
 import {StekcitUser, StekcitEvent, StekcitTicket, StekcitPayout} from "./StekcitBMStructs.sol";
 
 import {ERC20} from "./StekcitBMInterfaces.sol";
 
-contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
+contract StekcitBM is FunctionsClient, VRFConsumerBaseV2Plus {
     using FunctionsRequest for FunctionsRequest.Request;
 
     StekcitUser[] private allStekcitUsers;
@@ -24,6 +27,8 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
 
     bytes public lastFunctionsError;
 
+    uint256 immutable vrfV2SubscriptionId;
+
     uint256 private currentUserId;
     uint256 private currentEventId;
     uint256 private currentTicketId;
@@ -35,17 +40,22 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     // LINK on Fuji
     address linkAddress = 0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846;
 
-    // Chainlink VRF - Wrapper address for Avalanche Fuji
-    address wrapperAddress = 0x9345AC54dA4D0B5Cda8CB749d8ef37e5F02BBb21;
+    // Chainlink VRF V2 - Coordinator address for Avalanche Fuji
+    address vrfCoordinator = 0x5C210eF41CD1a72de73bF76eC39637bB0d3d7BEE;
 
     // Chainlink Functions - Router address for Avalanche Fuji
     address router = 0xA9d587a00A31A52Ed70D6026794a8FC5E2F5dCb0;
 
-    constructor(address _stekcitBMOwnerAddress)
-        VRFV2WrapperConsumerBase(linkAddress, wrapperAddress)
+    // Chainlink VRF V2 - 300 gwei Key Hash
+    bytes32 vrfV2KeyHash =
+        0xc799bd1e3bd4d1a41cd4968997a4e03dfd2a3c7c04b695881138580163f42887;
+
+    constructor(address _stekcitBMOwnerAddress, uint256 _vrfV2SubscriptionId)
         FunctionsClient(router)
+        VRFConsumerBaseV2Plus(vrfCoordinator)
     {
         stekcitBMOwnerAddress = _stekcitBMOwnerAddress;
+        vrfV2SubscriptionId = _vrfV2SubscriptionId;
     }
 
     // modifier onlyCreatingUserOfEvent(uint256 _eventId) {
@@ -677,24 +687,9 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         return false;
     }
 
-    function processPayout(uint256 _eventId)
-        public
-        returns (
-            // onlyCreatingUserOfEvent(_eventId)
-            StekcitPayout memory
-        )
-    {
+    function processPayout(uint256 _eventId) public {
         // Check if event has already been paid out (if payout exists)
         StekcitEvent memory eventToBePaidOut = allStekcitEvents[_eventId];
-
-        bool eventIsAlreadyPaidOut = checkIfEventIsAlreadyPaidOut(_eventId);
-
-        StekcitPayout memory blankPayout;
-        blankPayout.isBlank = true;
-
-        if (eventIsAlreadyPaidOut) {
-            return blankPayout;
-        }
 
         uint256 totalAmountToBePaidOutToCreatingUser = 0; // Starting value
 
@@ -737,50 +732,42 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
                 eventToBePaidOut.isPaidOut = true;
                 allStekcitEvents[_eventId] = eventToBePaidOut;
 
-                // Create new payout
-                StekcitPayout memory newPayout = createPayout(
-                    _eventId,
-                    totalAmountToBePaidOutToCreatingUser
+                uint256 newPayoutId = currentPayoutId;
+
+                allStekcitPayouts.push(
+                    StekcitPayout(
+                        newPayoutId,
+                        _eventId,
+                        msg.sender,
+                        totalAmountToBePaidOutToCreatingUser,
+                        block.timestamp,
+                        false
+                    )
                 );
-                return newPayout;
+
+                currentPayoutId++;
             }
-        } else {
-            return blankPayout;
         }
-
-        return blankPayout;
     }
 
-    function createPayout(uint256 _eventId, uint256 _amount)
-        private
-        returns (
-            // onlyCreatingUserOfEvent(_eventId)
-            StekcitPayout memory
-        )
-    {
-        uint256 newPayoutId = currentPayoutId;
+    // function createPayout(uint256 _eventId, uint256 _amount)
+    //     private
+    //     returns (
+    //         // onlyCreatingUserOfEvent(_eventId)
+    //         StekcitPayout memory
+    //     )
+    // {
 
-        allStekcitPayouts.push(
-            StekcitPayout(
-                newPayoutId,
-                _eventId,
-                msg.sender,
-                _amount,
-                block.timestamp,
-                false
-            )
-        );
+    //     return getPayoutById(newPayoutId);
+    // }
 
-        return getPayoutById(newPayoutId);
-    }
-
-    function getPayoutById(uint256 _payoutId)
-        public
-        view
-        returns (StekcitPayout memory)
-    {
-        return allStekcitPayouts[_payoutId];
-    }
+    // function getPayoutById(uint256 _payoutId)
+    //     public
+    //     view
+    //     returns (StekcitPayout memory)
+    // {
+    //     return allStekcitPayouts[_payoutId];
+    // }
 
     function getTotalAmountPaidToEventInEthers(uint256 _eventId)
         public
@@ -904,10 +891,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         bytes memory response,
         bytes memory err
     ) internal override {
-        (uint256 userId, bool isWelcomeEmailSent) = abi.decode(
-            response,
-            (uint256, bool)
-        );
+        uint256 userId = abi.decode(response, (uint256));
 
         StekcitUser memory updatedUser = allStekcitUsers[userId];
 
@@ -955,7 +939,20 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         public
         returns (StekcitEvent memory)
     {
-        uint256 eventVerificationId = requestRandomness(100000, 1, 1);
+        uint256 eventVerificationId = s_vrfCoordinator.requestRandomWords(
+            VRFV2PlusClient.RandomWordsRequest({
+                keyHash: vrfV2KeyHash,
+                subId: vrfV2SubscriptionId,
+                requestConfirmations: 1,
+                callbackGasLimit: 100000,
+                numWords: 1,
+                // Set nativePayment to true to pay for VRF requests with Sepolia ETH instead of LINK
+                extraArgs: VRFV2PlusClient._argsToBytes(
+                    VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
+                )
+            })
+        );
+
         return setVerificationRequestIdForEvent(_eventId, eventVerificationId);
     }
 
@@ -963,7 +960,19 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
         public
         returns (StekcitTicket memory)
     {
-        uint256 ticketVerificationId = requestRandomness(100000, 1, 1);
+        uint256 ticketVerificationId = s_vrfCoordinator.requestRandomWords(
+            VRFV2PlusClient.RandomWordsRequest({
+                keyHash: vrfV2KeyHash,
+                subId: vrfV2SubscriptionId,
+                requestConfirmations: 1,
+                callbackGasLimit: 100000,
+                numWords: 1,
+                // Set nativePayment to true to pay for VRF requests with Sepolia ETH instead of LINK
+                extraArgs: VRFV2PlusClient._argsToBytes(
+                    VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
+                )
+            })
+        );
         return
             setVerificationRequestIdForTicket(_ticketId, ticketVerificationId);
     }
@@ -971,7 +980,7 @@ contract StekcitBM is FunctionsClient, VRFV2WrapperConsumerBase {
     // Callback for Chainlink VRF
     function fulfillRandomWords(
         uint256 _requestId,
-        uint256[] memory _randomWords
+        uint256[] calldata _randomWords
     ) internal override {
         // Block for verifying events
         StekcitEvent memory updatedEvent = getEventByVerificationRequestId(

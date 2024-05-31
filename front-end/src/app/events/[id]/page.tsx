@@ -71,6 +71,17 @@ export default function Event() {
 
   const buyEventTicket = async () => {
 
+    if (stekcitEvent?.isPaidOut){
+      toast({
+        description: "This event is currently closed.",
+        status: "info",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
     const userHasTicket = await checkIfUserAlreadyHasTicket(address, {_eventId: eventId});
 
     if (userHasTicket){

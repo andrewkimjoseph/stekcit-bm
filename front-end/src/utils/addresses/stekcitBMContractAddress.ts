@@ -1,2 +1,2 @@
 export const stekcitBMContractAddress: `0x${string}` =
-    "0x96B915Bc598E9F276caad99291bdD15E5B76963c";
+    "0xc1e94fe7504F805135ed10ee8852D5771f4654E8";

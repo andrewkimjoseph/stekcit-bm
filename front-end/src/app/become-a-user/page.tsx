@@ -147,7 +147,7 @@ export default function BecomeAUser() {
 
       if (isUserCreated) {
           showSuccessToast(
-            "User created successfully, and you welcome email is in your inbox."
+            "User created successfully."
           );
           setUsernameInput("");
           setEmailAddressInput("");

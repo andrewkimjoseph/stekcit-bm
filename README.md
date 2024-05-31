@@ -1,7 +1,7 @@
 # Stekcit BM - tickets, the other way around
 
 <p align="left"> 
- <h2 align="left">Inspired by Celo Composer, Built Using Chakra UI</h2>
+ <h2 align="left">Built Using Next.js and Chakra UI</h2>
 </p>
 
 # About Stekcit BM

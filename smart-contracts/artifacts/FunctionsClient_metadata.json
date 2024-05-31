@@ -1,0 +1,115 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "OnlyRouterCanFulfill",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					}
+				],
+				"name": "RequestFulfilled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					}
+				],
+				"name": "RequestSent",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "requestId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes",
+						"name": "response",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes",
+						"name": "err",
+						"type": "bytes"
+					}
+				],
+				"name": "handleOracleFulfillment",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"handleOracleFulfillment(bytes32,bytes,bytes)": {
+					"details": "Either response or error parameter will be set, but never both.",
+					"params": {
+						"err": "Aggregated error either from the request's source code or from the execution pipeline.",
+						"requestId": "The requestId returned by FunctionsClient.sendRequest().",
+						"response": "Aggregated response from the request's source code."
+					}
+				}
+			},
+			"title": "The Chainlink Functions client contract",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"handleOracleFulfillment(bytes32,bytes,bytes)": {
+					"notice": "Chainlink Functions response handler called by the Functions Router during fullilment from the designated transmitter node in an OCR round."
+				}
+			},
+			"notice": "Contract developers can inherit this contract in order to make Chainlink Functions requests",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"smart-contracts/StekcitBM_flattened.sol": "FunctionsClient"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"smart-contracts/StekcitBM_flattened.sol": {
+			"keccak256": "0x0745f13b238877b5d8c19213661745a330f8e765e928f381c628a428abe6556a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3ba81cba5c5b4dbc5ca1338c377220b394e737e9e32d855c046abc45df0391df",
+				"dweb:/ipfs/QmcJRHJ4WqBWbhYZ6SvdgjUSdkfH2Lg2fbcRpHVppc5YZn"
+			]
+		}
+	},
+	"version": 1
+}

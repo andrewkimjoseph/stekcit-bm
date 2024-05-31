@@ -209,7 +209,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"smart-contracts/StekcitBMInterfaces.sol": "ERC20"
+			"smart-contracts/StekcitBM_flattened.sol": "ERC20"
 		},
 		"evmVersion": "paris",
 		"libraries": {},
@@ -223,12 +223,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"smart-contracts/StekcitBMInterfaces.sol": {
-			"keccak256": "0x5d906a6c7652ca39d076705cebb23a1a3c9d461438f62c58c0cde5e1bc0ea2c3",
+		"smart-contracts/StekcitBM_flattened.sol": {
+			"keccak256": "0x0745f13b238877b5d8c19213661745a330f8e765e928f381c628a428abe6556a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://2ed1bb6df4765f2de30f0b33f5ff06d653ffc134e79885500c551bc7056b534e",
-				"dweb:/ipfs/QmPjHnHYvQ9zJNyG59A8p4tUWidZXxFYSbMP4GLa1MX4mN"
+				"bzz-raw://3ba81cba5c5b4dbc5ca1338c377220b394e737e9e32d855c046abc45df0391df",
+				"dweb:/ipfs/QmcJRHJ4WqBWbhYZ6SvdgjUSdkfH2Lg2fbcRpHVppc5YZn"
 			]
 		}
 	},

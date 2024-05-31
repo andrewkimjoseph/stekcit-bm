@@ -1,0 +1,73 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "60566037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220d1c8000147cd62facf2b6b904b7493d5bafc50c1205d44a2e63b9273319e57f564736f6c63430008130033",
+			"opcodes": "PUSH1 0x56 PUSH1 0x37 PUSH1 0xB DUP3 DUP3 DUP3 CODECOPY DUP1 MLOAD PUSH1 0x0 BYTE PUSH1 0x73 EQ PUSH1 0x2A JUMPI PUSH4 0x4E487B71 PUSH1 0xE0 SHL PUSH1 0x0 MSTORE PUSH1 0x0 PUSH1 0x4 MSTORE PUSH1 0x24 PUSH1 0x0 REVERT JUMPDEST ADDRESS PUSH1 0x0 MSTORE PUSH1 0x73 DUP2 MSTORE8 DUP3 DUP2 RETURN INVALID PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 0xD1 0xC8 STOP ADD SELFBALANCE 0xCD PUSH3 0xFACF2B PUSH12 0x904B7493D5BAFC50C1205D44 LOG2 0xE6 EXTCODESIZE SWAP3 PUSH20 0x319E57F564736F6C634300081300330000000000 ",
+			"sourceMap": "21509:8435:0:-:0;;;;;;;;;;;;;;;-1:-1:-1;;;21509:8435:0;;;;;;;;;;;;;;;;;"
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220d1c8000147cd62facf2b6b904b7493d5bafc50c1205d44a2e63b9273319e57f564736f6c63430008130033",
+			"opcodes": "PUSH20 0x0 ADDRESS EQ PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 0xD1 0xC8 STOP ADD SELFBALANCE 0xCD PUSH3 0xFACF2B PUSH12 0x904B7493D5BAFC50C1205D44 LOG2 0xE6 EXTCODESIZE SWAP3 PUSH20 0x319E57F564736F6C634300081300330000000000 ",
+			"sourceMap": "21509:8435:0:-:0;;;;;;;;"
+		},
+		"gasEstimates": {
+			"creation": {
+				"codeDepositCost": "17200",
+				"executionCost": "103",
+				"totalCost": "17303"
+			},
+			"internal": {
+				"append(struct Buffer.buffer memory,bytes memory)": "infinite",
+				"append(struct Buffer.buffer memory,bytes memory,uint256)": "infinite",
+				"append(struct Buffer.buffer memory,bytes32,uint256)": "infinite",
+				"appendBytes20(struct Buffer.buffer memory,bytes20)": "infinite",
+				"appendBytes32(struct Buffer.buffer memory,bytes32)": "infinite",
+				"appendInt(struct Buffer.buffer memory,uint256,uint256)": "infinite",
+				"appendUint8(struct Buffer.buffer memory,uint8)": "infinite",
+				"fromBytes(bytes memory)": "infinite",
+				"init(struct Buffer.buffer memory,uint256)": "infinite",
+				"resize(struct Buffer.buffer memory,uint256)": "infinite",
+				"truncate(struct Buffer.buffer memory)": "infinite"
+			}
+		},
+		"methodIdentifiers": {}
+	},
+	"abi": []
+}

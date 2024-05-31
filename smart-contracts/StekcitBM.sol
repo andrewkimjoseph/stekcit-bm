@@ -306,7 +306,7 @@ contract StekcitBM is FunctionsClient, VRFConsumerBaseV2Plus {
 
         for (
             uint256 ticketId = 0;
-            ticketId < totalNumberOfTicketsOfEvent;
+            ticketId < allStekcitTickets.length;
             ticketId++
         ) {
             StekcitTicket memory currentTicket = allStekcitTickets[ticketId];
@@ -1003,3 +1003,6 @@ contract StekcitBM is FunctionsClient, VRFConsumerBaseV2Plus {
         }
     }
 }
+
+
+// Latest contract address: 0xc9ED183424F377D6B34193E20bC8e814E6d35938

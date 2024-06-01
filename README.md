@@ -1,4 +1,4 @@
-![7-9](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/3e6dca87-0d72-4811-9c4f-6fea1bfbc51a)![4-6](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/6c712f3b-22a2-48b4-8170-9a06f2422c40)# Stekcit BM - tickets, the other way around
+# Stekcit BM - tickets, the other way around
 
 <p align="left"> 
  <h2 align="left">Built Using Next.js and Chakra UI</h2>

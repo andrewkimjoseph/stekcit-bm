@@ -31,7 +31,8 @@
 
 # Important
 ## Pitch Deck
-...
+https://www.canva.com/design/DAGG0_O0wxM/O1IVq5xkZNTPR8ZJPMVGgw/view?utm_content=DAGG0_O0wxM&utm_campaign=designshare&utm_medium=link&utm_source=editor
+
 ## Pitch Deck Video
 ...
 

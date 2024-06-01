@@ -13,7 +13,7 @@
 # Chainlink Technologies Used
 ![Chainlink Technologies Used](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/2a19b1fd-b916-4672-94c0-cf188902eafc)
 
-# How to use Stekcit BM within MiniPay
+# How to use Stekcit BM
 1. Launch Chrome.
 2. Sign in to Metamask.
 3. Switch to the Avalanche Fuji network.

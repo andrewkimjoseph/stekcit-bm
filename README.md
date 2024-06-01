@@ -43,10 +43,10 @@ https://www.youtube.com/watch?v=ak9hXc6-RB4
 https://stekcit-bm.web.app
 
 ## Screenshots
-!!![13-15](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/ec8d0362-e124-42bf-8e34-9af2e68c583e)
-![10-12](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/6f607f72-aeda-4fcb-825a-a9f3059db7bc)
-[Uploading 7-9.png…]()
-[Uploading 4-6.png…]()
+![13-15](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/ec8d0362-e124-42bf-8e34-9af2e68c583e)
+[10-12](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/6f607f72-aeda-4fcb-825a-a9f3059db7bc)
+![7-9](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/7e3af023-c8e8-4d2f-a9d9-40c4199777dd)
+![4-6](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/8370a2af-3733-4ecc-b3d4-206f7b269b95)
 ![19-21](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/e7957cb0-4c47-46f3-8b86-75cba785b782)
 ![16-18](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/009a897c-b81d-49ee-ae74-c4d3d699cab5)
 ![28-30](https://github.com/andrewkimjoseph/stekcit-bm/assets/91619206/f6ecd66c-fb37-475c-84d3-9c9c6fb273c4)

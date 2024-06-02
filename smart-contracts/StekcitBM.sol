@@ -946,7 +946,7 @@ contract StekcitBM is FunctionsClient, VRFConsumerBaseV2Plus {
                 keyHash: vrfV2KeyHash,
                 subId: vrfV2SubscriptionId,
                 requestConfirmations: 1,
-                callbackGasLimit: 100000,
+                callbackGasLimit: 2500000,
                 numWords: 1,
                 // Set nativePayment to true to pay for VRF requests with Sepolia ETH instead of LINK
                 extraArgs: VRFV2PlusClient._argsToBytes(
@@ -967,7 +967,7 @@ contract StekcitBM is FunctionsClient, VRFConsumerBaseV2Plus {
                 keyHash: vrfV2KeyHash,
                 subId: vrfV2SubscriptionId,
                 requestConfirmations: 1,
-                callbackGasLimit: 100000,
+                callbackGasLimit: 2500000,
                 numWords: 1,
                 // Set nativePayment to true to pay for VRF requests with Sepolia ETH instead of LINK
                 extraArgs: VRFV2PlusClient._argsToBytes(
